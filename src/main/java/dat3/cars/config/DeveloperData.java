@@ -20,8 +20,6 @@ public class DeveloperData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
         Member m2 = new Member("member2", passwordUsedByAll, "aaa@dd.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-        memberRepository.save(m1);
-        memberRepository.save(m2);
 
         m1.getPhones().put("mobile","12345");
         m1.getPhones().put("work","45678");
