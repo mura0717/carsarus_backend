@@ -4,20 +4,21 @@ import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@Getter
+@Setter
 @Service
 public class MemberService {
 
     MemberRepository memberRepository;
-    MemberRequest memberRequest;
-    MemberResponse memberResponse;
 
-    public void MemberService(MemberRepository memberRepository){
+    public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
 
@@ -32,17 +33,15 @@ public class MemberService {
         return new MemberResponse(found,false);
     }
 
-    public MemberResponse addMember(MemberRequest m){
+    public MemberResponse addMember(MemberRequest memberRequest){
         if(memberRepository.existsById(memberRequest.getUsername())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this ID already exist");
         }
         if(memberRepository.existsByEmail(memberRequest.getEmail())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this Email already exist");
         }
-        else
-
-        return null;
-        //??
+        Member member = memberRepository.save(new Member(memberRequest.getUsername(), memberRequest.getPassword(), memberRequest.getEmail(), memberRequest.getFirstName(), memberRequest.getLastName(), memberRequest.getStreet(), memberRequest.getCity(), memberRequest.getZip()));
+        return new MemberResponse(member, false);
     }
 
 }
