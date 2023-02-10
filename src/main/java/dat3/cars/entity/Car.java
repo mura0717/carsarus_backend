@@ -1,7 +1,13 @@
 package dat3.cars.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Entity
 public class Car {
     @Column(name = "car_id", nullable = false, length = 50)
