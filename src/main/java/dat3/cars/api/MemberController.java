@@ -15,6 +15,9 @@ import java.util.List;
 class MemberController {
     MemberService memberService;
 
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     //ADMIN ONLY
     @GetMapping
@@ -46,8 +49,5 @@ class MemberController {
     // Security ????
     @DeleteMapping("/{username}")
     void deleteMemberByUsername(@PathVariable String username) {}
-
-
-
 }
 
