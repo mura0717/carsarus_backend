@@ -1,12 +1,11 @@
 package dat3.cars.api;
 
+import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
-import dat3.cars.dto.MemberResponse;
+import dat3.cars.dto.MemberRequest;
 import dat3.cars.service.CarService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,15 +14,34 @@ import java.util.List;
 public class CarController {
     CarService carService;
 
+    //Anonymous
     @GetMapping
     List<CarResponse> getCars() {
-        return carService.getCars(true);
+        return carService.getCars();
     }
 
-
+    //Anonymous
     @GetMapping(path = "/{carnumber}")
     CarResponse getCarById(@PathVariable long id) {
         return carService.findCarById(id);
     }
+
+    //Admin
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    CarResponse addCar(@RequestBody CarRequest body) {
+        return carService.addNewCar(body);
+    }
+
+    @PutMapping("id")
+    CarResponse editCarById (@RequestBody MemberRequest body, @PathVariable long id){
+        return carService.editCar(id);
+    }
+
+    @DeleteMapping("id")
+    CarResponse deleteCarById(@PathVariable long id){
+        return carService.deleteCar(id);
+    }
+
+
 
 }
