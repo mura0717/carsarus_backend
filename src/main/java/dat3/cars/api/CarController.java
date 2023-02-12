@@ -32,11 +32,12 @@ public class CarController {
         return carService.addNewCar(body);
     }
 
+    //Admin
     @PutMapping("id")
-    CarResponse editCarById (@RequestBody MemberRequest body, @PathVariable long id){
+    CarRequest editCarById (@PathVariable long id){
         return carService.editCar(id);
     }
-
+    //Admin
     @DeleteMapping("id")
     CarResponse deleteCarById(@PathVariable long id){
         return carService.deleteCar(id);
