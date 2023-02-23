@@ -3,9 +3,11 @@ package dat3.cars.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import dat3.cars.entity.Car;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 
 @Getter
 @Setter
@@ -26,4 +28,5 @@ public class CarResponse {
         this.pricePrDay = car.getPricePrDay();
         this.bestDiscount = car.getBestDiscount();
     }
+
 }

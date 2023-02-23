@@ -17,6 +17,7 @@ import java.util.List;
 public class MemberService {
 
     MemberRepository memberRepository;
+    MemberRequest memberRequest;
 
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
@@ -42,6 +43,24 @@ public class MemberService {
         }
         Member member = memberRepository.save(new Member(memberRequest.getUsername(), memberRequest.getPassword(), memberRequest.getEmail(), memberRequest.getFirstName(), memberRequest.getLastName(), memberRequest.getStreet(), memberRequest.getCity(), memberRequest.getZip()));
         return new MemberResponse(member, false);
+    }
+
+    public MemberRequest updateMember (String username){
+        Member found = memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+        found.setPassword(memberRequest.getPassword());
+        found.setEmail(memberRequest.getEmail());
+        found.setFirstName(memberRequest.getFirstName());
+        found.setLastName(memberRequest.getLastName());
+        found.setStreet(memberRequest.getStreet());
+        found.setCity(memberRequest.getCity());
+        found.setZip(memberRequest.getZip());
+        memberRepository.save(found);
+        return memberRequest;
+    }
+
+    public void deleteMember(String username){
+        Member found = memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
+        memberRepository.delete(found);
     }
 
 }

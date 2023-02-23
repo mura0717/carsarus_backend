@@ -2,7 +2,6 @@ package dat3.cars.api;
 
 import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
-import dat3.cars.dto.MemberRequest;
 import dat3.cars.service.CarService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,7 @@ public class CarController {
     //Anonymous
     @GetMapping
     List<CarResponse> getCars() {
-        return carService.getCars();
+        return carService.getAllCars();
     }
 
     //Anonymous
@@ -35,12 +34,13 @@ public class CarController {
     //Admin
     @PutMapping("id")
     CarRequest editCarById (@PathVariable long id){
-        return carService.editCar(id);
+        return carService.updateCar(id);
     }
+
     //Admin
     @DeleteMapping("id")
-    CarResponse deleteCarById(@PathVariable long id){
-        return carService.deleteCar(id);
+    public void deleteCarById(@PathVariable long id){
+        carService.deleteCar(id);
     }
 
 
