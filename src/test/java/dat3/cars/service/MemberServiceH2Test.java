@@ -1,6 +1,7 @@
 package dat3.cars.service;
 
 import dat3.cars.dto.MemberResponse;
+import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,5 +45,26 @@ class MemberServiceH2Test {
 
     @Test
     void addMember() {
+        Member newMember = new Member("m3", "test12", "m1@a.dk",  "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
+        memberRepository.save(newMember);
+
+        assertNotNull(newMember.getUsername());
+        assertEquals("test12", newMember.getPassword());
+        assertEquals("m1@a.dk", newMember.getEmail());
+        assertEquals("bb", newMember.getFirstName());
+        assertEquals("Olsen", newMember.getLastName());
+        assertEquals("xx vej 34", newMember.getStreet());
+        assertEquals("Lyngby", newMember.getCity());
+        assertEquals("2800", newMember.getZip());
+    }
+
+    @Test
+    void deleteMember() {
+        Member newMember = new Member("m3", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
+        memberRepository.save(newMember);
+
+        memberRepository.deleteById("m3");
+        Optional<Member> retrievedMember = memberRepository.findById("m3");
+        assertFalse(retrievedMember.isPresent());
     }
 }
