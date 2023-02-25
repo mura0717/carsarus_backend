@@ -29,7 +29,7 @@ public class MemberService {
         return memberResponses;
     }
 
-    public MemberResponse findMemberUsername(String username){
+    public MemberResponse findMemberByUsername(String username){
         Member found = memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
         return new MemberResponse(found,false);
     }

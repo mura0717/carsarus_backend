@@ -26,7 +26,7 @@ class MemberController {
     //ADMIN ONLY
     @GetMapping(path = "/{username}")
     MemberResponse getMemberById(@PathVariable String username) {
-        return memberService.findMemberUsername(username);
+        return memberService.findMemberByUsername(username);
     }
 
     //ANONYMOUS

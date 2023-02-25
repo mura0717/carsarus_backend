@@ -13,7 +13,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -76,8 +78,38 @@ class MemberServiceMockitoTest {
 
     @Test
     void getMembers() {
+        List<Member> members = new ArrayList<>();
+        members.add(new Member("m1", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800"));
+        members.add(new Member("m2", "test12", "m2@a.dk", "aa", "hansen", "xx vej 34", "Lyngby", "2800"));
+        Mockito.when(memberRepository.findAll()).thenReturn(members);
 
+        List<MemberResponse> memberResponses = memberService.getMembers(true);
+        assertEquals(2,memberResponses.size());
+        assertEquals("m1",memberResponses.get(0).getUsername());
+        assertEquals("m2",memberResponses.get(1).getUsername());
+        assertEquals("m1@a.dk",memberResponses.get(0).getEmail());
+        assertEquals("m2@a.dk",memberResponses.get(1).getEmail());
+        assertEquals("bb",memberResponses.get(0).getFirstName());
+        assertEquals("aa",memberResponses.get(1).getFirstName());
+        assertEquals("Olsen",memberResponses.get(0).getLastName());
+        assertEquals("hansen",memberResponses.get(1).getLastName());
+        assertEquals("xx vej 34",memberResponses.get(0).getStreet());
+        assertEquals("xx vej 34",memberResponses.get(1).getStreet());
+        assertEquals("Lyngby",memberResponses.get(0).getCity());
+        assertEquals("Lyngby",memberResponses.get(1).getCity());
+        assertEquals("2800",memberResponses.get(0).getZip());
+        assertEquals("2800",memberResponses.get(1).getZip());
     }
 
+    @Test
+    void deleteMember() {
+        Member member = new Member("m1", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
+
+        Mockito.when(memberRepository.findById("m1")).thenReturn(Optional.of(member));
+
+        memberService.deleteMember("m1");
+
+        Mockito.verify(memberRepository, Mockito.times(1)).delete(member);
+    }
 
 }
