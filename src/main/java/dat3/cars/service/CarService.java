@@ -25,15 +25,15 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public List<CarResponse> getAllCars() {
+    public List<CarResponse> getAllCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
-        List<CarResponse> carResponses = cars.stream().map((c) -> new CarResponse(c)).toList();
+        List<CarResponse> carResponses = cars.stream().map((c) -> new CarResponse(c, includeAll)).toList();
         return carResponses;
     }
 
-    public CarResponse findCarById(long id) {
+    public CarResponse findCarById(long id, boolean includeAll) {
         Car found = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found."));
-        return new CarResponse(found);
+        return new CarResponse(found, includeAll);
     }
 
     public CarResponse addNewCar(CarRequest carRequest){
@@ -41,18 +41,24 @@ public class CarService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car with this ID already exists.");
         }
 
-        Car newCar = carRepository.save(new Car(carRequest.getId(), carRequest.getBrand(), carRequest.getModel(), carRequest.getPricePrDay(), carRequest.getBestDiscount()));
-        return new CarResponse(newCar);
+        Car newCar = new Car();
+                newCar.setId(carRequest.getId());
+                newCar.setBrand(carRequest.getBrand());
+                newCar.setModel(carRequest.getModel());
+                newCar.setPricePrDay(carRequest.getPricePrDay());
+                newCar.setBestDiscount(carRequest.getBestDiscount());
+        newCar = carRepository.save(newCar);
+        return new CarResponse(newCar, true);
     }
 
-    public CarRequest updateCar(long id) {
-        Car found = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found."));
-        found.setBrand(carRequest.getBrand());
-        found.setModel(carRequest.getModel());
-        found.setPricePrDay(carRequest.getPricePrDay());
-        found.setBestDiscount(carRequest.getBestDiscount());
-        carRepository.save(found);
-        return carRequest;
+    public CarResponse updateCar(CarRequest body, long id) {
+        Car carToEdit = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found."));
+        carToEdit.setBrand(body.getBrand());
+        carToEdit.setModel(body.getModel());
+        carToEdit.setPricePrDay(body.getPricePrDay());
+        carToEdit.setBestDiscount(body.getBestDiscount());
+        Car updatedCar = carRepository.save(carToEdit);
+        return new CarResponse(updatedCar, true);
     }
 
 

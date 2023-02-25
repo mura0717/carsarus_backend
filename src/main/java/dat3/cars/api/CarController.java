@@ -16,13 +16,13 @@ public class CarController {
     //Anonymous
     @GetMapping
     List<CarResponse> getCars() {
-        return carService.getAllCars();
+        return carService.getAllCars(false);
     }
 
     //Anonymous
-    @GetMapping(path = "/{carnumber}")
+    @GetMapping(path = "/{id}")
     CarResponse getCarById(@PathVariable long id) {
-        return carService.findCarById(id);
+        return carService.findCarById(id, false);
     }
 
     //Admin
@@ -32,9 +32,9 @@ public class CarController {
     }
 
     //Admin
-    @PutMapping("id")
-    CarRequest editCarById (@PathVariable long id){
-        return carService.updateCar(id);
+    @PutMapping("/{id}")
+    CarResponse editCarById (@RequestBody CarRequest body, @PathVariable long id){
+        return carService.updateCar(body, id);
     }
 
     //Admin

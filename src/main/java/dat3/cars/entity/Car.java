@@ -2,6 +2,10 @@ package dat3.cars.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -22,5 +26,11 @@ public class Car {
     private double pricePrDay;
     @Column(name= "max_discount")
     private int bestDiscount;
+
+    @CreationTimestamp
+    LocalDateTime created;
+
+    @UpdateTimestamp
+    LocalDateTime updated;
 
 }
