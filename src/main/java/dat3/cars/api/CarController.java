@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("api/cars")
+@RestController
 public class CarController {
+
     CarService carService;
 
-    //Anonymous
+    //Security
     @GetMapping
     List<CarResponse> getCars() {
         return carService.getAllCars(false);
@@ -33,16 +34,15 @@ public class CarController {
 
     //Admin
     @PutMapping("/{id}")
-    CarResponse editCarById (@RequestBody CarRequest body, @PathVariable long id){
+    CarResponse editCarById(@RequestBody CarRequest body, @PathVariable long id) {
         return carService.updateCar(body, id);
     }
 
     //Admin
     @DeleteMapping("id")
-    public void deleteCarById(@PathVariable long id){
+    public void deleteCarById(@PathVariable long id) {
         carService.deleteCar(id);
     }
-
 
 
 }

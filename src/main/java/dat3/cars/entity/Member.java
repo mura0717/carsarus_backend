@@ -40,6 +40,17 @@ public class Member extends UserWithRoles {
     @UpdateTimestamp
     private LocalDateTime lastEdited;
 
+    @ElementCollection
+    List<String> favoriteCarColors = new ArrayList<>();
+
+    @ElementCollection
+    @MapKeyColumn(name = "description")
+    @Column(name = "phone_number")
+    Map<String,String> phones = new HashMap<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL , orphanRemoval = true)
+    List<Reservation> reservations;
+
     public Member(String user, String password, String email,
                   String firstName, String lastName, String street, String city, String zip) {
         super(user, password, email);
@@ -52,13 +63,5 @@ public class Member extends UserWithRoles {
         this.city = city;
         this.zip = zip;
     }
-
-    @ElementCollection
-    List<String> favoriteCarColors = new ArrayList<>();
-
-    @ElementCollection
-    @MapKeyColumn(name = "description")
-    @Column(name = "phone_number")
-    Map<String,String> phones = new HashMap<>();
 
 }

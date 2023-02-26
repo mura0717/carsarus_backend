@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Cars</title>
+</head>
+<body>
+<table id="carsTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Price per Day</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+<script>
+    fetch('/getCars')
+        .then(response => response.json())
+        .then(cars => {
+            const tableBody = document.querySelector('#carsTable tbody');
+            cars.forEach(car => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+              <td>${car.id}</td>
+              <td>${car.brand}</td>
+              <td>${car.model}</td>
+              <td>${car.pricePrDay}</td>
+            `;
+                tableBody.appendChild(row);
+            });
+        });
+</script>
+</body>
+</html>

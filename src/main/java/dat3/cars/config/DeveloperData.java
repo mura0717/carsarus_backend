@@ -2,35 +2,57 @@ package dat3.cars.config;
 
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
+import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 
+import dat3.cars.repository.ReservationRepository;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
 import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
-@Controller
-public class DeveloperData implements CommandLineRunner {
+//  @Controller
+@Configuration
+@EnableJpaRepositories(basePackages = {"dat3.cars.repository", "dat3.security.repository"})
+@ComponentScan(basePackages = {"dat3.security.repository"})
 
+
+public class DeveloperData implements ApplicationRunner {
+
+    @Autowired
     MemberRepository memberRepository;
     CarRepository carRepository;
+    ReservationRepository reservationRepository;
 
     public DeveloperData(MemberRepository memberRepository, CarRepository carRepository) {
         this.memberRepository = memberRepository;
         this.carRepository = carRepository;
+        this.reservationRepository = reservationRepository;
     }
 
-    void testData() {
+    void testCarMemberData() {
         final String passwordUsedByAll = "test12";
-        Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-        Member m2 = new Member("member2", passwordUsedByAll, "aaa@dd.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
+        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
+        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
+        Member m3 = new Member("member2", passwordUsedByAll, "member3@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800");
+        Member m4 = new Member("member2", passwordUsedByAll, "member4@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
+        Member m5 = new Member("member2", passwordUsedByAll, "member5@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
         memberRepository.save(m1);
         memberRepository.save(m2);
+        memberRepository.save(m3);
+        memberRepository.save(m4);
+        memberRepository.save(m5);
 
         m1.getPhones().put("mobile", "12345");
         m1.getPhones().put("work", "45678");
@@ -95,14 +117,32 @@ public class DeveloperData implements CommandLineRunner {
         userWithRolesRepository.save(user4);
     }
 
+    void testReservationData() {
 
-    @Override
+        List<Reservation> dummyReservations = new ArrayList<>(Arrays.asList(
+        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 3, 10))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 3, 13))).member(memberRepository.findById("member1").get()).car(carRepository.findById(1L).get()).build(),
+        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 4, 1))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 4, 5))).member(memberRepository.findById("member2").get()).car(carRepository.findById(2L).get()).build(),
+        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 5, 12))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 5, 15))).member(memberRepository.findById("member3").get()).car(carRepository.findById(3L).get()).build(),
+        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 6, 20))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 6, 23))).member(memberRepository.findById("member4").get()).car(carRepository.findById(4L).get()).build(),
+        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 7, 1))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 7, 5))).member(memberRepository.findById("member5").get()).car(carRepository.findById(5L).get()).build()
+        ));
+        reservationRepository.saveAll(dummyReservations);
+    }
+
+/*    @Override
     public void run(String... args) throws Exception {
         //testData();
         //setupUserWithRoleUsers();
 
         Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
         setupUserWithRoleUsers();
+    }*/
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+            testCarMemberData();
+            setupUserWithRoleUsers();
+            testReservationData();
     }
 }
 
