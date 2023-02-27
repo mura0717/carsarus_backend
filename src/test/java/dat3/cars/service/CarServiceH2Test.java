@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +58,7 @@ class CarServiceH2Test {
 
     @Test
     void testAddNewCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null);
+        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
         carRepository.save(car1);
 
         assertNotNull(car1.getId());
@@ -70,10 +71,10 @@ class CarServiceH2Test {
 
     @Test
     void testUpdateCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null);
+        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
         carRepository.save(car1);
 
-        Car updatedCar1 = new Car(car1.getId(), "BMW", "M3", 200000, 20, car1.getCreated(), LocalDateTime.now());
+        Car updatedCar1 = new Car(car1.getId(), "BMW", "M3", 200000, 20, car1.getCreated(), LocalDateTime.now(),new ArrayList<>());
         carRepository.save(updatedCar1);
 
         Optional<Car> retrievedCar = carRepository.findById(1L);
@@ -86,7 +87,7 @@ class CarServiceH2Test {
 
     @Test
     void testDeleteCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null);
+        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
         carRepository.save(car1);
 
         carRepository.deleteById(1L);
