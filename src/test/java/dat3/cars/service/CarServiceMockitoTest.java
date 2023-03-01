@@ -68,16 +68,16 @@ class CarServiceMockitoTest {
 
     @Test
     void testAddNewCar() {
-        CarRequest carRequest = CarRequest.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        CarRequest carRequest = CarRequest.builder().id(3).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
         Car newCar = CarRequest.getCarEntity(carRequest);
-        newCar.setId(1L);
+        newCar.setId(3);
         newCar.setCreated(LocalDateTime.now());
 
         Mockito.when(carRepository.save(newCar)).thenReturn(newCar);
 
         CarResponse carResult = carService.addNewCar(carRequest);
         assertNotNull(carResult);
-        assertEquals(1, carResult.getId());
+        assertEquals(3, carResult.getId());
         assertEquals("Audi", carResult.getBrand());
         assertEquals("A4", carResult.getModel());
         assertEquals(100000, carResult.getPricePrDay());

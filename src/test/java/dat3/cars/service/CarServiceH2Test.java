@@ -26,7 +26,6 @@ class CarServiceH2Test {
 
     CarService carService;
 
-
     @BeforeEach
     void setUp() {
         Car car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
@@ -58,15 +57,15 @@ class CarServiceH2Test {
 
     @Test
     void testAddNewCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
-        carRepository.save(car1);
+        Car car3 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
+        carRepository.save(car3);
 
-        assertNotNull(car1.getId());
-        assertEquals(1L, car1.getId());
-        assertEquals("Audi", car1.getBrand());
-        assertEquals("A4", car1.getModel());
-        assertEquals(100000, car1.getPricePrDay());
-        assertEquals(10, car1.getBestDiscount());
+        assertNotNull(car3.getId());
+        assertEquals(1L, car3.getId());
+        assertEquals("Audi", car3.getBrand());
+        assertEquals("A4", car3.getModel());
+        assertEquals(100000, car3.getPricePrDay());
+        assertEquals(10, car3.getBestDiscount());
     }
 
     @Test
