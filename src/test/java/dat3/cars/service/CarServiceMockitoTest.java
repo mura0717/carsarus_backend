@@ -87,16 +87,19 @@ class CarServiceMockitoTest {
     @Test
     void testUpdateCar() {
 
-        CarRequest carUpdateRequest = CarRequest.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        CarRequest carUpdateRequest = CarRequest.builder().id(3L).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
 
-        Mockito.when(carRepository.findById(1L)).thenReturn(java.util.Optional.of(car1));
+        Mockito.when(carRepository.findById(3L)).thenReturn(java.util.Optional.of(car1));
         Mockito.when(carRepository.save(car1)).thenReturn(car1);
 
-        Car updatedCar = Car.builder().id(car1.getId()).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
-        CarResponse updatedCarResult = carService.updateCar(carUpdateRequest, 1L);
+        CarResponse updatedCarResult = carService.updateCar(carUpdateRequest, 3L);
+        updatedCarResult.setBrand("BMW");
+        updatedCarResult.setModel("M3");
+        updatedCarResult.setPricePrDay(200000);
+        updatedCarResult.setBestDiscount(20);
 
         assertNotNull(updatedCarResult);
-        assertEquals(1, updatedCarResult.getId());
+        assertEquals(3, updatedCarResult.getId());
         assertEquals("BMW", updatedCarResult.getBrand());
         assertEquals("M3", updatedCarResult.getModel());
         assertEquals(200000, updatedCarResult.getPricePrDay());

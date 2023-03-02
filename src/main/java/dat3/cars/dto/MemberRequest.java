@@ -1,12 +1,12 @@
 package dat3.cars.dto;
 import dat3.cars.entity.Member;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MemberRequest {
     String username;
     String email;
@@ -16,6 +16,10 @@ public class MemberRequest {
     String street;
     String city;
     String zip;
+
+    public static Member getMemberEntity(MemberRequest m){
+        return new Member(m.username,m.getPassword(),m.getEmail(), m.firstName, m.lastName,m.getStreet(), m.getCity(), m.getZip());
+    }
 
     // Member to MemberRequest conversion
     public MemberRequest(Member m){

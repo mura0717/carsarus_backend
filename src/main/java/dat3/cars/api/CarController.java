@@ -10,6 +10,7 @@ import java.util.List;
 
 @RequestMapping("api/cars")
 @RestController
+@CrossOrigin
 public class CarController {
 
     CarService carService;
@@ -20,7 +21,7 @@ public class CarController {
         return carService.getAllCars(false);
     }
 
-    //Anonymous
+    //Security Anonymous
     @GetMapping(path = "/{id}")
     CarResponse getCarById(@PathVariable long id) {
         return carService.findCarById(id, false);
