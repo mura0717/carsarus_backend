@@ -13,8 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Service
 public class CarService {
 
@@ -22,11 +20,11 @@ public class CarService {
     CarRequest carRequest;
     CarResponse carResponse;
 
-    public void CarService (CarRepository carRepository){
+    public CarService (CarRepository carRepository){
         this.carRepository = carRepository;
     }
 
-    public List<CarResponse> getAllCars(boolean includeAll) {
+    public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
         List<CarResponse> carResponses = cars.stream().map((c) -> new CarResponse(c, includeAll)).toList();
         return carResponses;

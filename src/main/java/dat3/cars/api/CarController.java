@@ -18,7 +18,7 @@ public class CarController {
     //Security
     @GetMapping
     List<CarResponse> getCars() {
-        return carService.getAllCars(false);
+        return carService.getCars(false);
     }
 
     //Security Anonymous

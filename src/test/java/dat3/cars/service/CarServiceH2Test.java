@@ -2,7 +2,6 @@ package dat3.cars.service;
 
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
-import dat3.cars.entity.Member;
 import dat3.cars.repository.CarRepository;
 import lombok.Builder;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +35,7 @@ class CarServiceH2Test {
 
     @Test
     void testGetAllCars() {
-        List<CarResponse> cars = carService.getAllCars(false);
+        List<CarResponse> cars = carService.getCars(false);
 
         assertEquals(2, cars.size());
         assertEquals("Audi", cars.get(0).getBrand());

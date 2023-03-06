@@ -1,5 +1,7 @@
 package dat3.cars.service;
 
+import dat3.cars.dto.CarResponse;
+import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
@@ -77,14 +79,9 @@ class MemberServiceH2Test {
     void editMember() {
         Member newMember = new Member("m3", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800");
         memberRepository.save(newMember);
-
+        MemberRequest request = new MemberRequest(newMember);
+        MemberResponse response = memberService.updateMember(request, newMember.getUsername());
         Member updatedNewMember = memberRepository.findById(newMember.getUsername()).get();
-        updatedNewMember.setFirstName("aa");
-        updatedNewMember.setLastName("Jensen");
-        updatedNewMember.setStreet("yy vej 54");
-        updatedNewMember.setCity("København");
-        updatedNewMember.setZip("2300");
-
         memberRepository.save(updatedNewMember);
 
         assertEquals("aa", updatedNewMember.getFirstName());
