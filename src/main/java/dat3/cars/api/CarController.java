@@ -36,7 +36,7 @@ public class CarController {
     //Admin
     @PutMapping("/{id}")
     CarResponse editCarById(@RequestBody CarRequest body, @PathVariable long id) {
-        return carService.updateCar(body, id);
+        return carService.editCar(body, id);
     }
 
     //Admin

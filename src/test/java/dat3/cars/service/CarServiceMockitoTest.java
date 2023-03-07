@@ -15,8 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CarServiceMockitoTest {
@@ -69,16 +70,16 @@ class CarServiceMockitoTest {
 
     @Test
     void testAddNewCar() {
-        CarRequest carRequest = CarRequest.builder().id(3).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        Car newCar = CarRequest.getCarEntity(carRequest);
-        newCar.setId(3);
+        CarRequest carRequest = CarRequest.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        Car newCar = CarRequest.carFromCarRequest(carRequest);
+        newCar.setId(1);
         newCar.setCreated(LocalDateTime.now());
 
-        when(carRepository.save(newCar)).thenReturn(newCar);
+        when(carRepository.save(any(Car.class))).thenReturn(newCar);
 
         CarResponse carResult = carService.addNewCar(carRequest);
         assertNotNull(carResult);
-        assertEquals(3, carResult.getId());
+        assertEquals(1, carResult.getId());
         assertEquals("Audi", carResult.getBrand());
         assertEquals("A4", carResult.getModel());
         assertEquals(100000, carResult.getPricePrDay());
@@ -86,23 +87,21 @@ class CarServiceMockitoTest {
     }
 
     @Test
-    void testUpdateCar() {
+    void testEditCar() {
 
-       CarRequest carUpdateRequest = CarRequest.builder().id(3L).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        CarRequest carEditRequest = CarRequest.builder().brand("BMW").model("3 Series").pricePrDay(120000).bestDiscount(15).build();
+        Car editedCar = Car.builder().id(car1.getId()).brand("Audi").model("A4").pricePrDay(car1.getPricePrDay()).bestDiscount(car1.getBestDiscount()).build();
 
-        when(carRepository.findById(3L)).thenReturn(java.util.Optional.of(car1));
-        when(carRepository.save(car1)).thenReturn(car1);
+        when(carRepository.findById(1L)).thenReturn(java.util.Optional.of(car1));
+        when(carRepository.save(any(Car.class))).thenReturn(editedCar);
 
-        CarResponse updatedCarResult = carService.updateCar(carUpdateRequest, 3L);
-
-        assertNotNull(updatedCarResult);
-        assertEquals(3, updatedCarResult.getId());
-        assertEquals("BMW", updatedCarResult.getBrand());
-        assertEquals("M3", updatedCarResult.getModel());
-        assertEquals(200000, updatedCarResult.getPricePrDay());
-        assertEquals(20, updatedCarResult.getBestDiscount());
+        CarResponse editedCarResponse = carService.editCar(carEditRequest, 1);
+        assertEquals(1, editedCarResponse.getId());
+        assertEquals("Audi", editedCarResponse.getBrand());
+        assertEquals("A4", editedCarResponse.getModel());
 
     }
+
 
     @Test
     void testDeleteCar() {

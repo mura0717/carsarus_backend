@@ -50,7 +50,7 @@ public class CarService {
         return new CarResponse(newCar, true);
     }
 
-    public CarResponse updateCar(CarRequest body, long id) {
+    public CarResponse editCar(CarRequest body, long id) {
         Car carToEdit = carRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Car not found."));
         carToEdit.setBrand(body.getBrand());
         carToEdit.setModel(body.getModel());
