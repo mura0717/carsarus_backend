@@ -59,7 +59,6 @@ public class UserWithRoles implements UserDetails {
 
     public UserWithRoles() {}
 
-
    // We will use this constructor when/if users must be created via an HTTP-request
     public UserWithRoles(UserWithRolesRequest body) {
         this.username = body.getUsername();

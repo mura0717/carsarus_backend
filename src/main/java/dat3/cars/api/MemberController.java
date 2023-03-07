@@ -5,7 +5,6 @@ import dat3.cars.dto.MemberResponse;
 
 import dat3.cars.service.MemberService;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +37,7 @@ class MemberController {
     //MEMBER ???
     @PutMapping("/{username}")
     MemberResponse editMember(@RequestBody MemberRequest body, @PathVariable String username) {
-        return memberService.updateMember(body, username);
+        return memberService.editMember(body, username);
     }
 
     //ADMIN ????

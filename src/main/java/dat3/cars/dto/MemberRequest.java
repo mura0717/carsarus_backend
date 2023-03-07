@@ -18,7 +18,7 @@ public class MemberRequest {
     String zip;
 
     public static Member getMemberEntity(MemberRequest m){
-        return new Member(m.username,m.getPassword(),m.getEmail(), m.firstName, m.lastName,m.getStreet(), m.getCity(), m.getZip());
+        return new Member(m.username, m.getPassword(), m.getEmail(), m.firstName, m.lastName,m.getStreet(), m.getCity(), m.getZip());
     }
 
     // Member to MemberRequest conversion
