@@ -1,6 +1,5 @@
 package dat3.cars.repository;
 
-import dat3.cars.entity.Car;
 import dat3.cars.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
+    boolean existsByCarIdAndRentalDate(long carId, LocalDate rentalStartDate);
+    List<Reservation> findByMemberUsername(String userName);
+    Long countReservationsByMemberUsername(String username);
 
-    List<Reservation> findConflictingReservations(Car car, LocalDate rentalStartDate, LocalDate rentalEndDate);
+    //List<Reservation> findConflictingReservations(Car car, LocalDate rentalStartDate, LocalDate rentalEndDate);
 }

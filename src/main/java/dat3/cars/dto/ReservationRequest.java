@@ -5,23 +5,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@Builder
 public class ReservationRequest {
 
-    long id;
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
+    private long carId;
+    private String username;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateToReserveCar;
+
+
+/*    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     LocalDate reservationDate;
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     LocalDate rentalStartDate;
@@ -38,4 +39,6 @@ public class ReservationRequest {
         this.member = r.getMember();
         this.car = r.getCar();
     }
+
+ */
 }

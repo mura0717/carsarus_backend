@@ -40,13 +40,13 @@ public class DeveloperData implements CommandLineRunner {
     void testData() {
         String passwordUsedByAll = "test12";
 
-        Member m1 = new Member("member1", passwordUsedByAll, "member4@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
-        Member m2 = new Member("member2", passwordUsedByAll, "member5@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
+        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
+        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
         memberRepository.save(m1);
         memberRepository.save(m2);
-        memberRepository.save(new Member("member3", passwordUsedByAll, "member1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
-        memberRepository.save(new Member("member4", passwordUsedByAll, "member2@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
-        memberRepository.save(new Member("member5", passwordUsedByAll, "member3@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800"));
+        memberRepository.save(new Member("member3", passwordUsedByAll, "member3@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member4", passwordUsedByAll, "member4@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member5", passwordUsedByAll, "member5@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800"));
 
         Car car1 = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
         carRepository.save(car1);

@@ -27,13 +27,13 @@ public class ReservationController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ReservationResponse addReservation(@RequestBody ReservationRequest body){
-        return reservationService.createNewReservation(body);
+        return reservationService.makeReservation(body);
     }
 
-    @PutMapping(path = "/{id}")
+/*    @PutMapping(path = "/{id}")
     ReservationResponse editReservationById(@RequestBody ReservationRequest body, @PathVariable int id) {
         return reservationService.updateReservation(body, id);
-    }
+    }*/
 
     @DeleteMapping(path = "/{id}")
     void deleteReservationById(@PathVariable int id) {
