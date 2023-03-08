@@ -5,32 +5,31 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@Builder
 @NoArgsConstructor
 @Entity
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    int id;
     @CreationTimestamp
-    LocalDateTime reservationDate;
+    LocalDate reservationDate;
 
-    LocalDateTime rentalStartDate;
-    LocalDateTime rentalEndDate;
+    LocalDate rentalStartDate;
+    //LocalDateTime rentalEndDate;
 
     @ManyToOne
     Member member;
     @ManyToOne
     Car car;
 
-    public Reservation(LocalDateTime rentalStartDate, LocalDateTime rentalEndDate, Member member) {
-        this.rentalStartDate = rentalStartDate;
-        this.rentalEndDate = rentalEndDate;
+    public Reservation(Member member, Car car, LocalDate rentalStartDate) {
         this.member = member;
+        this.car = car;
+        this.rentalStartDate = rentalStartDate;
+        //this.rentalEndDate = rentalEndDate;
     }
 }

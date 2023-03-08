@@ -21,7 +21,7 @@ public class ReservationController {
     }
 
     @GetMapping(path = "/{id}")
-    ReservationResponse getReservationById(@PathVariable long id) {
+    ReservationResponse getReservationById(@PathVariable int id) {
         return reservationService.findReservationById(id);
     }
 
@@ -31,12 +31,12 @@ public class ReservationController {
     }
 
     @PutMapping(path = "/{id}")
-    ReservationResponse editReservationById(@RequestBody ReservationRequest body, @PathVariable long id) {
+    ReservationResponse editReservationById(@RequestBody ReservationRequest body, @PathVariable int id) {
         return reservationService.updateReservation(body, id);
     }
 
     @DeleteMapping(path = "/{id}")
-    void deleteReservationById(@PathVariable long id) {
+    void deleteReservationById(@PathVariable int id) {
         reservationService.deleteReservation(id);
     }
 

@@ -12,54 +12,59 @@ import dat3.security.entity.UserWithRoles;
 import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Controller;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//  @Controller
-@Configuration
-@EnableJpaRepositories(basePackages = {"dat3.cars.repository", "dat3.security.repository"})
-@ComponentScan(basePackages = {"dat3.security.repository"})
+//@Controller
+//@Configuration
+//@EnableJpaRepositories(basePackages = {"dat3.cars.repository", "dat3.security.repository"})
+//@ComponentScan(basePackages = {"dat3.security.repository"})
 
+@Component
+public class DeveloperData implements CommandLineRunner {
 
-public class DeveloperData implements ApplicationRunner {
-
-    @Autowired
-    MemberRepository memberRepository;
     CarRepository carRepository;
+    MemberRepository memberRepository;
     ReservationRepository reservationRepository;
 
-    public DeveloperData(MemberRepository memberRepository, CarRepository carRepository) {
+    public DeveloperData(CarRepository carRepository,MemberRepository memberRepository, ReservationRepository reservationRepository) {
         this.memberRepository = memberRepository;
         this.carRepository = carRepository;
         this.reservationRepository = reservationRepository;
     }
 
-    void testCarMemberData() {
-        final String passwordUsedByAll = "test12";
-        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-        Member m3 = new Member("member2", passwordUsedByAll, "member3@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800");
-        Member m4 = new Member("member2", passwordUsedByAll, "member4@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
-        Member m5 = new Member("member2", passwordUsedByAll, "member5@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
+    void testData() {
+        String passwordUsedByAll = "test12";
+
+        Member m1 = new Member("member1", passwordUsedByAll, "member4@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
+        Member m2 = new Member("member2", passwordUsedByAll, "member5@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
         memberRepository.save(m1);
         memberRepository.save(m2);
-        memberRepository.save(m3);
-        memberRepository.save(m4);
-        memberRepository.save(m5);
+        memberRepository.save(new Member("member3", passwordUsedByAll, "member1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member4", passwordUsedByAll, "member2@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member5", passwordUsedByAll, "member3@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800"));
 
-        m1.getPhones().put("mobile", "12345");
-        m1.getPhones().put("work", "45678");
-        m2.getFavoriteCarColors().add("red");
-        memberRepository.save(m1);
-        memberRepository.save(m2);
+        Car car1 = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
+        carRepository.save(car1);
+        createCars();
 
+        //Create a default reservation
+        Reservation res1 = new Reservation(m1, car1, LocalDate.of(2023, 12, 12));
+        reservationRepository.save(res1);
+
+//        m1.getPhones().put("mobile", "12345");
+//        m1.getPhones().put("work", "45678");
+//        m2.getFavoriteCarColors().add("red");
+//        memberRepository.save(m1);
+//        memberRepository.save(m2);
+
+    }
+
+    private void createCars(){
         List<Car> newCars = new ArrayList<>(Arrays.asList(
                 Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build(),
                 Car.builder().brand("Suzuki").model("Swift").pricePrDay(350).bestDiscount(6).build(),
@@ -117,32 +122,10 @@ public class DeveloperData implements ApplicationRunner {
         userWithRolesRepository.save(user4);
     }
 
-    void testReservationData() {
-
-        List<Reservation> dummyReservations = new ArrayList<>(Arrays.asList(
-        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 3, 10))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 3, 13))).member(memberRepository.findById("member1").get()).car(carRepository.findById(1L).get()).build(),
-        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 4, 1))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 4, 5))).member(memberRepository.findById("member2").get()).car(carRepository.findById(2L).get()).build(),
-        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 5, 12))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 5, 15))).member(memberRepository.findById("member3").get()).car(carRepository.findById(3L).get()).build(),
-        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 6, 20))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 6, 23))).member(memberRepository.findById("member4").get()).car(carRepository.findById(4L).get()).build(),
-        Reservation.builder().rentalStartDate(LocalDateTime.from(LocalDate.of(2023, 7, 1))).rentalEndDate(LocalDateTime.from(LocalDate.of(2023, 7, 5))).member(memberRepository.findById("member5").get()).car(carRepository.findById(5L).get()).build()
-        ));
-        reservationRepository.saveAll(dummyReservations);
-    }
-
-/*    @Override
-    public void run(String... args) throws Exception {
-        //testData();
-        //setupUserWithRoleUsers();
-
-        Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-        setupUserWithRoleUsers();
-    }*/
-
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-            testCarMemberData();
-            setupUserWithRoleUsers();
-            testReservationData();
+    public void run(String... args) throws Exception {
+        testData();
+        setupUserWithRoleUsers();
     }
 }
 

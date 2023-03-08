@@ -3,7 +3,6 @@ package dat3.cars.service;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.repository.CarRepository;
-import lombok.Builder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,30 +15,42 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Builder
 @DataJpaTest
 class CarServiceH2Test {
 
     @Autowired
-    public CarRepository carRepository;
-
+    CarRepository carRepository;
     CarService carService;
+
+    boolean dataInitialized = false;
+
+    private Car car1;
+    private Car car2;
 
     @BeforeEach
     void setUp() {
-        Car car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        Car car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
-        carRepository.save(car1);
-        carRepository.save(car2);
+        if(dataInitialized) return;
+        car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
+        carRepository.saveAndFlush(car1);
+        carRepository.saveAndFlush(car2);
+        carService = new CarService(carRepository);
+
+        dataInitialized = true;
     }
 
     @Test
     void testGetAllCars() {
-        List<CarResponse> cars = carService.getCars(false);
+        List<CarResponse> carsResponseAdmin = carService.getCars(true);
 
-        assertEquals(2, cars.size());
-        assertEquals("Audi", cars.get(0).getBrand());
-        assertEquals("BMW", cars.get(1).getBrand());
+        assertEquals(2, carsResponseAdmin.size());
+        assertNotNull("Audi", carsResponseAdmin.get(0).getBrand());
+        assertNotNull("BMW", carsResponseAdmin.get(1).getBrand());
+
+        List<CarResponse> carsResponseUser = carService.getCars(false);
+        assertEquals(2, carsResponseUser.size());
+        assertNull("Audi", carsResponseUser.get(0).getBrand());
+        assertNull("BMW", carsResponseUser.get(1).getBrand());
 
     }
 

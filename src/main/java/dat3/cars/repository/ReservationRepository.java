@@ -5,11 +5,11 @@ import dat3.cars.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
-    List<Reservation> findConflictingReservations(Car car, LocalDateTime rentalStartDate, LocalDateTime rentalEndDate);
+    List<Reservation> findConflictingReservations(Car car, LocalDate rentalStartDate, LocalDate rentalEndDate);
 }

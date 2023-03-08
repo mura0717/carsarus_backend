@@ -46,7 +46,7 @@ public class ReservationService {
         return reservationResponses;
     }
 
-    public ReservationResponse findReservationById(Long id){
+    public ReservationResponse findReservationById(int id){
         Reservation found = reservationRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reservation not found."));
         return new ReservationResponse(found);
     }
@@ -59,22 +59,22 @@ public class ReservationService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car is not available for the requested rental period.");
         }
 
-        Reservation reservation = reservationRepository.save(new Reservation(reservationRequest.getId(), reservationRequest.getReservationDate(), reservationRequest.getRentalStartDate(), reservationRequest.getRentalEndDate(), reservationRequest.getMember(), reservationRequest.getCar()));
+        Reservation reservation = reservationRepository.save(new Reservation(reservationRequest.getMember(), reservationRequest.getCar(), reservationRequest.getRentalStartDate()));
         return new ReservationResponse(reservation);
     }
 
-    public ReservationResponse updateReservation (ReservationRequest body, long id){
+    public ReservationResponse updateReservation (ReservationRequest body, int id){
         Reservation reservationToEdit = reservationRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reservation not found."));
         reservationToEdit.setReservationDate(body.getReservationDate());
         reservationToEdit.setRentalStartDate(body.getRentalStartDate());
-        reservationToEdit.setRentalEndDate(body.getRentalEndDate());
+        //reservationToEdit.setRentalEndDate(body.getRentalEndDate());
         reservationToEdit.setMember(body.getMember());
         reservationToEdit.setCar(body.getCar());
         Reservation updatedReservation = reservationRepository.save(reservationToEdit);
         return new ReservationResponse(updatedReservation);
     }
 
-    public void deleteReservation(Long id){
+    public void deleteReservation(int id){
         Reservation found = reservationRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reservation not found."));
         reservationRepository.delete(found);
     }

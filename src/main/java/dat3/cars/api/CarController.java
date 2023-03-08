@@ -23,7 +23,7 @@ public class CarController {
 
     //Security Anonymous
     @GetMapping(path = "/{id}")
-    CarResponse getCarById(@PathVariable long id) {
+    CarResponse getCarById(@PathVariable int id) {
         return carService.findCarById(id, false);
     }
 
@@ -35,13 +35,13 @@ public class CarController {
 
     //Admin
     @PutMapping("/{id}")
-    CarResponse editCarById(@RequestBody CarRequest body, @PathVariable long id) {
+    CarResponse editCarById(@RequestBody CarRequest body, @PathVariable int id) {
         return carService.editCar(body, id);
     }
 
     //Admin
     @DeleteMapping("id")
-    public void deleteCarById(@PathVariable long id) {
+    public void deleteCarById(@PathVariable int id) {
         carService.deleteCar(id);
     }
 
