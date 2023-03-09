@@ -1,5 +1,6 @@
 package dat3.cars.service;
 
+import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.repository.CarRepository;
@@ -32,7 +33,7 @@ class CarServiceH2Test {
         if(dataInitialized) return;
         car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
         car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
-        carRepository.saveAndFlush(car1);
+        carRepository.saveAndFlush(car1);//Flush?
         carRepository.saveAndFlush(car2);
         carService = new CarService(carRepository);
 
@@ -54,11 +55,13 @@ class CarServiceH2Test {
         assertEquals(2, carsResponseUser.size());
         assertEquals("Audi", carsResponseUser.get(0).getBrand());
         assertEquals("M3", carsResponseUser.get(1).getModel());
+        assertEquals(100000, carsResponseUser.get(0).getPricePrDay());
+        assertNull(carsResponseUser.get(0).getBestDiscount());
 
     }
     @Test
-    void testFindCarById() {
-        CarResponse foundCar = carService.findCarById(1L, false);
+    void testFindCarByIdbyAdmin() {
+        CarResponse foundCar = carService.findCarById(1L, true);
 
         assertEquals(1, foundCar.getId());
         assertEquals("Audi", foundCar.getBrand());
@@ -68,40 +71,49 @@ class CarServiceH2Test {
     }
 
     @Test
-    void testAddNewCar() {
-        Car car3 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
-        carRepository.save(car3);
+    void testFindCarByIdbyUser() {
+        CarResponse foundCar = carService.findCarById(1L, false);
 
-        assertNotNull(car3.getId());
-        assertEquals(1L, car3.getId());
-        assertEquals("Audi", car3.getBrand());
-        assertEquals("A4", car3.getModel());
-        assertEquals(100000, car3.getPricePrDay());
-        assertEquals(10, car3.getBestDiscount());
+        assertEquals(1, foundCar.getId());
+        assertEquals("Audi", foundCar.getBrand());
+        assertEquals("A4", foundCar.getModel());
+        assertEquals(100000, foundCar.getPricePrDay());
+        assertNull(foundCar.getBestDiscount());
     }
 
     @Test
-    void testUpdateCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
+    void testAddNewCar() {
+        CarRequest carRequest = CarRequest.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        CarResponse addedCar = carService.addNewCar(carRequest);
+
+        assertNotNull(addedCar.getId());
+        assertEquals(3L, addedCar.getId()); //Is the Id becomes 3 after the first 2 cars because of before each?
+        assertEquals("Audi", addedCar.getBrand());
+        assertEquals("A4", addedCar.getModel());
+        assertEquals(100000, addedCar.getPricePrDay());
+        assertEquals(10, addedCar.getBestDiscount());
+    }
+
+    @Test
+    void testEditCar() {
+       /* Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
         carRepository.save(car1);
 
         Car updatedCar1 = new Car(car1.getId(), "BMW", "M3", 200000, 20, car1.getCreated(), LocalDateTime.now(),new ArrayList<>());
-        carRepository.save(updatedCar1);
+        carRepository.save(updatedCar1);*/
+        CarRequest editCarRequest = CarRequest.builder().brand(car1.getBrand()).model(car1.getModel()).pricePrDay(car1.getPricePrDay()).bestDiscount(car1.getBestDiscount()).build();
+        CarResponse retrievedCar = carService.editCar(editCarRequest, car1.getId());
 
-        Optional<Car> retrievedCar = carRepository.findById(1L);
-        assertTrue(retrievedCar.isPresent());
-        assertEquals("BMW", retrievedCar.get().getBrand());
-        assertEquals("M3", retrievedCar.get().getModel());
-        assertEquals(200000, retrievedCar.get().getPricePrDay());
-        assertEquals(20, retrievedCar.get().getBestDiscount());
+        //assertTrue(retrievedCar.isPresent());
+        assertEquals("BMW", retrievedCar.getBrand());
+        assertEquals("M3", retrievedCar.getModel());
+        assertEquals(200000, retrievedCar.getPricePrDay());
+        assertEquals(20, retrievedCar.getBestDiscount());
     }
 
     @Test
     void testDeleteCar() {
-        Car car1 = new Car(1L, "Audi", "A4", 100000, 10, LocalDateTime.now(), null,new ArrayList<>());
-        carRepository.save(car1);
-
-        carRepository.deleteById(1L);
+        carRepository.deleteById(car1.getId());
         Optional<Car> retrievedCar = carRepository.findById(1L);
         assertFalse(retrievedCar.isPresent());
     }
