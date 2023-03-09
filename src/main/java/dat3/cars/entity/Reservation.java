@@ -1,9 +1,9 @@
 package dat3.cars.entity;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
@@ -15,10 +15,10 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+//    @CreationTimestamp
+//    LocalDate reservationDate;
     @CreationTimestamp
-    LocalDate reservationDate;
-
-    LocalDate rentalStartDate;
+    LocalDate rentalDate;
     //LocalDateTime rentalEndDate;
 
     @ManyToOne
@@ -26,10 +26,10 @@ public class Reservation {
     @ManyToOne
     Car car;
 
-    public Reservation(Member member, Car car, LocalDate rentalStartDate) {
+    public Reservation(Member member, Car car, LocalDate rentalDate) {
         this.member = member;
         this.car = car;
-        this.rentalStartDate = rentalStartDate;
+        this.rentalDate = rentalDate;
         //this.rentalEndDate = rentalEndDate;
     }
 }

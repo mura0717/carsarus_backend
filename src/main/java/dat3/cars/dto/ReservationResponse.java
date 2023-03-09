@@ -1,19 +1,10 @@
 package dat3.cars.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import dat3.cars.entity.Car;
-import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -38,7 +29,7 @@ public class ReservationResponse {
         this.carBrand = r.getCar().getBrand();
         this.carModel = r.getCar().getModel();
         this.pricePrDay = r.getCar().getPricePrDay();
-        this.rentalDate = r.getRentalStartDate();
+        this.rentalDate = r.getRentalDate();
     }
 
 

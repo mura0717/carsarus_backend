@@ -42,9 +42,9 @@ class CarServiceH2Test {
     @Test
     void testGetAllCars() {
         List<CarResponse> carsResponseAdmin = carService.getCars(true);
-
+        System.out.println(carsResponseAdmin);
         assertEquals(2, carsResponseAdmin.size());
-        assertNotNull("Audi", carsResponseAdmin.get(0).getBrand());
+        assertEquals(100000, carsResponseAdmin.get(0).getPricePrDay());
         assertNotNull("BMW", carsResponseAdmin.get(1).getBrand());
 
         List<CarResponse> carsResponseUser = carService.getCars(false);

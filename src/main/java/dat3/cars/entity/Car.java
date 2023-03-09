@@ -34,7 +34,7 @@ public class Car {
     @UpdateTimestamp
     LocalDateTime updated;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
     List<Reservation> reservations;
 
 }

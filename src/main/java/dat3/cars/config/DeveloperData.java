@@ -12,26 +12,28 @@ import dat3.security.entity.UserWithRoles;
 import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Controller
-//@Configuration
-//@EnableJpaRepositories(basePackages = {"dat3.cars.repository", "dat3.security.repository"})
-//@ComponentScan(basePackages = {"dat3.security.repository"})
-
-@Component
-public class DeveloperData implements CommandLineRunner {
+@Configuration
+@EnableJpaRepositories(basePackages = {"dat3.cars.repository", "dat3.security.repository"})
+@ComponentScan(basePackages = {"dat3.security.repository"})
+//@Component
+public class DeveloperData implements ApplicationRunner {
 
     CarRepository carRepository;
     MemberRepository memberRepository;
     ReservationRepository reservationRepository;
 
-    public DeveloperData(CarRepository carRepository,MemberRepository memberRepository, ReservationRepository reservationRepository) {
+    public DeveloperData(MemberRepository memberRepository, CarRepository carRepository, ReservationRepository reservationRepository) {
         this.memberRepository = memberRepository;
         this.carRepository = carRepository;
         this.reservationRepository = reservationRepository;
@@ -122,8 +124,14 @@ public class DeveloperData implements CommandLineRunner {
         userWithRolesRepository.save(user4);
     }
 
+//    @Override
+//    public void run(String... args) throws Exception {
+//        testData();
+//        setupUserWithRoleUsers();
+//    }
+
     @Override
-    public void run(String... args) throws Exception {
+    public void run(ApplicationArguments args) throws Exception {
         testData();
         setupUserWithRoleUsers();
     }
