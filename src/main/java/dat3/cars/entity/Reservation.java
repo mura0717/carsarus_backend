@@ -15,9 +15,9 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-//    @CreationTimestamp
-//    LocalDate reservationDate;
     @CreationTimestamp
+    LocalDate reservationDate;
+
     LocalDate rentalDate;
     //LocalDateTime rentalEndDate;
 

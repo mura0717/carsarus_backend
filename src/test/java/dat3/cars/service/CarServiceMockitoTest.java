@@ -43,12 +43,16 @@ class CarServiceMockitoTest {
     }
 
     @Test
-    void testGetCars() {
+    void testGetCarsAdmin() {
         when(carRepository.findAll()).thenReturn(List.of(car1, car2));
 
         List<CarResponse> carsAdmin = carService.getCars(true);
         assertEquals(2, carsAdmin.size());
         assertNotNull(carsAdmin.get(0).getCreated());
+    }
+    @Test
+    void testGetCarsUser() {
+        when(carRepository.findAll()).thenReturn(List.of(car1, car2));
 
         List<CarResponse> carsUser = carService.getCars(false);
         assertEquals(2, carsUser.size());

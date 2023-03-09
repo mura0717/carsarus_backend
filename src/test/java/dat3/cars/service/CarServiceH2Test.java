@@ -40,20 +40,22 @@ class CarServiceH2Test {
     }
 
     @Test
-    void testGetAllCars() {
+    void testGetCarsAdmin() {
         List<CarResponse> carsResponseAdmin = carService.getCars(true);
         System.out.println(carsResponseAdmin);
         assertEquals(2, carsResponseAdmin.size());
         assertEquals(100000, carsResponseAdmin.get(0).getPricePrDay());
-        assertNotNull("BMW", carsResponseAdmin.get(1).getBrand());
-
-        List<CarResponse> carsResponseUser = carService.getCars(false);
-        assertEquals(2, carsResponseUser.size());
-        assertNull("Audi", carsResponseUser.get(0).getBrand());
-        assertNull("BMW", carsResponseUser.get(1).getBrand());
+        assertEquals(20, carsResponseAdmin.get(1).getBestDiscount());
 
     }
+    @Test
+    void testGetCarsUser(){
+        List<CarResponse> carsResponseUser = carService.getCars(false);
+        assertEquals(2, carsResponseUser.size());
+        assertEquals("Audi", carsResponseUser.get(0).getBrand());
+        assertEquals("M3", carsResponseUser.get(1).getModel());
 
+    }
     @Test
     void testFindCarById() {
         CarResponse foundCar = carService.findCarById(1L, false);
