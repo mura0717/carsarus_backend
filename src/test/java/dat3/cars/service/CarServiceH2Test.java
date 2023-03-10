@@ -31,8 +31,8 @@ class CarServiceH2Test {
     @BeforeEach
     void setUp() {
         if(!dataInitialized) return;
-        car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
+        car1 = Car.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        car2 = Car.builder().brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
         carRepository.saveAndFlush(car1);//Flush?
         carRepository.saveAndFlush(car2);
         carService = new CarService(carRepository);
@@ -59,9 +59,9 @@ class CarServiceH2Test {
     }
     @Test
     void testFindCarByIdbyAdmin() {
-        CarResponse foundCar = carService.findCarById(1L, true);
+        CarResponse foundCar = carService.findCarById(3, true);
 
-        assertEquals(1, foundCar.getId());
+        assertEquals(3, foundCar.getId());
         assertEquals("Audi", foundCar.getBrand());
         assertEquals("A4", foundCar.getModel());
         assertEquals(100000, foundCar.getPricePrDay());
@@ -85,7 +85,7 @@ class CarServiceH2Test {
         CarResponse addedCar = carService.addNewCar(carRequest);
 
         assertNotNull(addedCar.getId());
-        assertEquals(3L, addedCar.getId()); //Is the Id becomes 3 after the first 2 cars because of before each?
+        assertEquals(9, addedCar.getId()); //Is the Id becomes 3 after the first 2 cars because of before each?
         assertEquals("Audi", addedCar.getBrand());
         assertEquals("A4", addedCar.getModel());
         assertEquals(100000, addedCar.getPricePrDay());

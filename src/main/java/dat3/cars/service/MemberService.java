@@ -32,7 +32,7 @@ public class MemberService {
 
     public MemberResponse findMemberByUsername(String username, boolean includeAll){
         Member found = memberRepository.findById(username).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not found"));
-        return new MemberResponse(found,false);
+        return new MemberResponse(found,includeAll);
     }
 
     public MemberResponse addMember(MemberRequest memberRequest){

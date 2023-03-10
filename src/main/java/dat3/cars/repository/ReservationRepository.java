@@ -12,6 +12,4 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
     boolean existsByCarIdAndRentalDate(long carId, LocalDate rentalDate);
     List<Reservation> findByMemberUsername(String userName);
     Long countReservationsByMemberUsername(String username);
-
-    //List<Reservation> findConflictingReservations(Car car, LocalDate rentalStartDate, LocalDate rentalEndDate);
 }
