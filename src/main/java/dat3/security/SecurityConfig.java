@@ -36,7 +36,6 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 
-@Configuration
 public class SecurityConfig {
 
   @Bean
