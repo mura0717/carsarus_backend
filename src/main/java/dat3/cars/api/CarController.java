@@ -3,6 +3,7 @@ package dat3.cars.api;
 import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.service.CarService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,10 @@ import java.util.List;
 public class CarController {
 
     CarService carService;
+
+    public CarController(CarService carService) {
+        this.carService = carService;
+    }
 
     //Security
     @GetMapping
