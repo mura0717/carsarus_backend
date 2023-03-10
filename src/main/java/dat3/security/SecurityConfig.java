@@ -36,6 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 
+@Configuration
 public class SecurityConfig {
 
   @Bean
@@ -144,6 +145,5 @@ public class SecurityConfig {
           throws Exception {
     return authenticationConfiguration.getAuthenticationManager();
   }
-
-
 }
+
