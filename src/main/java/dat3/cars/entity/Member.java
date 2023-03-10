@@ -17,6 +17,7 @@ import java.util.Map;
 @Getter
 @Setter
 @NoArgsConstructor
+//@Builder
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "USER_TYPE")
@@ -51,6 +52,7 @@ public class Member extends UserWithRoles {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL , orphanRemoval = true)
     List<Reservation> reservations;
 
+    //Why do we have this constructor? We don't have it in car.
     public Member(String user, String password, String email,
                   String firstName, String lastName, String street, String city, String zip) {
         super(user, password, email);

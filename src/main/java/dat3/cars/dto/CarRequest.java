@@ -18,6 +18,6 @@ public class CarRequest {
 
     public static Car carFromCarRequest(CarRequest car){
         return Car.builder().brand(car.brand).model(car.model).pricePrDay(car.pricePrDay).bestDiscount(car.bestDiscount).build();
-    }//How does the id generated?
+    }//How does the id generated? Auto?
 
 }
