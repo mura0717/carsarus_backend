@@ -26,6 +26,11 @@ public class CarController {
         return carService.getCars(false);
     }
 
+    @GetMapping("/admin")
+    List<CarResponse> getCarsAdmin() {
+        return carService.getCars(true);
+    }
+
     //Security Anonymous
     @GetMapping(path = "/{id}")
     CarResponse getCarById(@PathVariable int id) {
