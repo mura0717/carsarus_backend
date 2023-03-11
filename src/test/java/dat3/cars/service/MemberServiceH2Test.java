@@ -50,8 +50,6 @@ class MemberServiceH2Test {
         m1 = memberRepository.saveAndFlush(m1);
         m2 = memberRepository.saveAndFlush(m2);
 
-        //testEntityManager.clear();
-
         memberService = new MemberService(memberRepository);
         dataInitialized = true;
     }

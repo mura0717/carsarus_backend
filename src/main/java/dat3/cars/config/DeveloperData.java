@@ -13,14 +13,11 @@ import dat3.security.repository.UserWithRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Configuration
@@ -39,24 +36,27 @@ public class DeveloperData implements ApplicationRunner {
         this.reservationRepository = reservationRepository;
     }
 
-    void testData() {
+    void dummyData() {
         String passwordUsedByAll = "test12";
 
-        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Esra", "Babacan", "Lyngbyvej 6", "Lyngby", "2800");
-        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronja", "Auster", "Lyngbyvej 8", "Lyngby", "2800");
+        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Esra", "Babacan", "Tikøbvej 32", "Tikøb", "3600");
+        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronja", "Auster", "Roskildevej 8", "Roskilde", "3200");
         memberRepository.save(m1);
         memberRepository.save(m2);
-        memberRepository.save(new Member("member3", passwordUsedByAll, "member3@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
-        memberRepository.save(new Member("member4", passwordUsedByAll, "member4@a.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
-        memberRepository.save(new Member("member5", passwordUsedByAll, "member5@a.dk", "John", "T", "Lyngbyvej 4", "Lyngby", "2800"));
+        memberRepository.save(new Member("member3", passwordUsedByAll, "member3@a.dk", "Kurt", "Vonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member4", passwordUsedByAll, "member4@a.dk", "Hanne", "Vonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
+        memberRepository.save(new Member("member5", passwordUsedByAll, "member5@a.dk", "Johnny", "Guitar", "Amagervej 4", "Amager", "4000"));
 
         Car car1 = Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build();
+        Car car2 = Car.builder().brand("Suzuki").model("Swift").pricePrDay(350).bestDiscount(6).build();
         carRepository.save(car1);
+        carRepository.save(car2);
         createCars();
 
-        //Create a default reservation
         Reservation res1 = new Reservation(m1, car1, LocalDate.of(2023, 12, 12));
+        Reservation res2 = new Reservation(m2, car2, LocalDate.of(2023, 06, 06));
         reservationRepository.save(res1);
+        reservationRepository.save(res2);
 
 //        m1.getPhones().put("mobile", "12345");
 //        m1.getPhones().put("work", "45678");
@@ -68,8 +68,6 @@ public class DeveloperData implements ApplicationRunner {
 
     private void createCars(){
         List<Car> newCars = new ArrayList<>(Arrays.asList(
-                Car.builder().brand("Volvo").model("V70").pricePrDay(500).bestDiscount(10).build(),
-                Car.builder().brand("Suzuki").model("Swift").pricePrDay(350).bestDiscount(6).build(),
                 Car.builder().brand("Kia").model("Optima").pricePrDay(450).bestDiscount(18).build(),
                 Car.builder().brand("WW").model("Wagon").pricePrDay(400).bestDiscount(20).build(),
                 Car.builder().brand("Volvo").model("S80").pricePrDay(600).bestDiscount(12).build(),
@@ -124,6 +122,7 @@ public class DeveloperData implements ApplicationRunner {
         userWithRolesRepository.save(user4);
     }
 
+//    CommandLineRunner run method.
 //    @Override
 //    public void run(String... args) throws Exception {
 //        testData();
@@ -132,7 +131,7 @@ public class DeveloperData implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        testData();
+        dummyData();
         setupUserWithRoleUsers();
     }
 }

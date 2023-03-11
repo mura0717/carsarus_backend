@@ -17,9 +17,8 @@ public class Reservation {
     int id;
     @CreationTimestamp
     LocalDate reservationDate;
-
+    //The car's rental date
     LocalDate rentalDate;
-    //LocalDateTime rentalEndDate;
 
     @ManyToOne
     Member member;

@@ -10,14 +10,17 @@ import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 
+
+//@Transactional
+
 @Service
-@Transactional
 public class ReservationService {
 
     ReservationRepository reservationRepository;
@@ -26,6 +29,10 @@ public class ReservationService {
 
     MemberRepository memberRepository;
     CarRepository carRepository;
+
+/*    public ReservationService (ReservationRepository reservationRepository){
+        this.reservationRepository = reservationRepository;
+    }*/
 
     public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, CarRepository carRepository) {
         this.reservationRepository = reservationRepository;

@@ -15,8 +15,8 @@ import java.util.List;
 public class CarService {
 
     CarRepository carRepository;
-    CarRequest carRequest;
-    CarResponse carResponse;
+//    CarRequest carRequest;
+//    CarResponse carResponse;
 
     public CarService (CarRepository carRepository){
         this.carRepository = carRepository;

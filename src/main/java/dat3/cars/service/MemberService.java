@@ -17,8 +17,8 @@ import java.util.List;
 public class MemberService {
 
     MemberRepository memberRepository;
-    MemberRequest memberRequest;
-    MemberResponse memberResponse;
+//    MemberRequest memberRequest;
+//    MemberResponse memberResponse;
 
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
