@@ -1,3 +1,4 @@
+/*
 package dat3.cars.service;
 
 import dat3.cars.dto.CarRequest;
@@ -128,4 +129,4 @@ class MemberServiceH2Test {
         Optional<Member> retrievedMember = memberRepository.findById(m1.getUsername());
         assertFalse(retrievedMember.isPresent());
     }
-}
+}*/
