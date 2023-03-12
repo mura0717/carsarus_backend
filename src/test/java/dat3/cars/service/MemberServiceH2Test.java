@@ -79,7 +79,7 @@ class MemberServiceH2Test {
         assertEquals("bb", foundMember.getFirstName());
         assertEquals("Olsen", foundMember.getLastName());
         assertEquals(m1.getCreated(), foundMember.getCreated());
-        assertNotNull(foundMember.getApproved());//Why is it null?
+        assertNotNull(foundMember.getApproved());
     }
 
     @Test

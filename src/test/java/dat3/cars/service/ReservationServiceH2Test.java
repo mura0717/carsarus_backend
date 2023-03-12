@@ -1,5 +1,6 @@
 package dat3.cars.service;
 
+import dat3.cars.dto.MemberResponse;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
@@ -71,6 +72,14 @@ class ReservationServiceH2Test {
 
     @Test
     void findReservationById() {
+
+        ReservationResponse foundReservation = reservationService.findReservationById(res1.getId());
+        assertNotNull(foundReservation);
+        assertEquals(1, foundReservation.getId());
+        assertEquals("m1", foundReservation.getMemberUsername());
+        assertEquals(1, foundReservation.getCarId());
+        assertEquals("Audi", foundReservation.getCarBrand());
+        assertEquals(LocalDate.parse("2023-04-04"), foundReservation.getRentalDate());
     }
 
     @Test
