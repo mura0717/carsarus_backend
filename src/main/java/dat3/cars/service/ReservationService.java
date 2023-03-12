@@ -50,7 +50,7 @@ public class ReservationService {
     }
 
     public ReservationResponse makeReservation (ReservationRequest reservationRequest){
-        if (reservationRepository.existsByCarIdAndRentalDate(reservationRequest.getCar(), reservationRequest.getRentalDate())) {
+        if (reservationRepository.existsByCarIdAndRentalDate(reservationRequest.getCar().getId(), reservationRequest.getRentalDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is already reserved on this day");
         }
         Car car = carRepository.findById(reservationRequest.getCar().getId())

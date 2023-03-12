@@ -1,6 +1,8 @@
 package dat3.cars.service;
 
+import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
+import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
@@ -84,12 +86,24 @@ class ReservationServiceH2Test {
     }
 
     @Test
-    void makeReservation() {
+    void getReservationsForUser() {
     }
 
     @Test
-    void getReservationsForUser() {
+    void makeReservation() {
+        Reservation res3 = new Reservation(3, m1, car2, LocalDate.parse("2023-06-01"));
+        ReservationRequest reservationMakeRequest = new ReservationRequest(res3);
+        ReservationResponse madeReservation = reservationService.makeReservation(reservationMakeRequest);
+
+        assertDoesNotThrow(() -> reservationRepository.findById(madeReservation.getId()).get());
+        assertNotNull(madeReservation);
+        assertEquals(3, madeReservation.getId());
+        assertEquals("m1", madeReservation.getMemberUsername());
+        assertEquals(2, madeReservation.getCarId());
+        assertEquals("BMW", madeReservation.getCarBrand());
+        assertEquals(LocalDate.parse("2023-06-01"), madeReservation.getRentalDate());
     }
+
 
     @Test
     void deleteReservation() {
