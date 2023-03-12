@@ -49,14 +49,14 @@ class ReservationServiceH2Test {
         reservationRepository.deleteAll();
         memberRepository.deleteAll();
         carRepository.deleteAll();
-        car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
+        car1 = Car.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        car2 = Car.builder().brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
         carRepository.saveAndFlush(car1);
         carRepository.saveAndFlush(car2);
         m1 = memberRepository.saveAndFlush(new Member("m1", "test12", "m1@a.dk", "Bibi", "Olsen", "xx vej 34", "Lyngby", "2800"));
         m2 = memberRepository.saveAndFlush(new Member("m2", "test12", "m2@a.dk", "Martin", "Hansen", "yy vej 34", "Amager", "4000"));
-        res1 = reservationRepository.saveAndFlush(new Reservation(1, m1, car1, LocalDate.parse("2023-04-04")));
-        res2 = reservationRepository.saveAndFlush(new Reservation(2, m2, car2, LocalDate.parse("2023-05-04")));
+        res1 = reservationRepository.saveAndFlush(new Reservation(1, m1, car1, LocalDate.parse("2023-04-04")));//Reservation id is overwritten by the database once all tests are run.
+        res2 = reservationRepository.saveAndFlush(new Reservation(2, m2, car2, LocalDate.parse("2023-05-04")));//Reservation id is overwritten by the database once all tests are run.
 
         reservationService = new ReservationService(reservationRepository, memberRepository, carRepository);
         dataIsInitialized = true;
@@ -67,7 +67,7 @@ class ReservationServiceH2Test {
         List<ReservationResponse> reservationResponseList = reservationService.getReservations();
         assertEquals(2, reservationResponseList.size());
         System.out.println(reservationResponseList);
-        assertEquals(1, reservationResponseList.get(0).getCarId());
+        assertEquals(7, reservationResponseList.get(0).getCarId());
         assertEquals("Audi", reservationResponseList.get(0).getCarBrand());
         assertEquals("m2", reservationResponseList.get(1).getMemberUsername());
         assertEquals(LocalDate.parse("2023-05-04"), reservationResponseList.get(1).getRentalDate());
@@ -78,9 +78,9 @@ class ReservationServiceH2Test {
 
         ReservationResponse foundReservation = reservationService.findReservationById(res1.getId());
         assertNotNull(foundReservation);
-        assertEquals(1, foundReservation.getId());
+        assertEquals(6, foundReservation.getId());
         assertEquals("m1", foundReservation.getMemberUsername());
-        assertEquals(1, foundReservation.getCarId());
+        assertEquals(5, foundReservation.getCarId());
         assertEquals("Audi", foundReservation.getCarBrand());
         assertEquals(LocalDate.parse("2023-04-04"), foundReservation.getRentalDate());
     }

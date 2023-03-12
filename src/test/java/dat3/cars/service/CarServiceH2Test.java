@@ -4,6 +4,7 @@ import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.repository.CarRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ class CarServiceH2Test {
 
     @BeforeEach
     void setUp() {
+        carRepository.deleteAll();
         if(!dataInitialized) return;
         car1 = Car.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
         car2 = Car.builder().brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
@@ -59,9 +61,10 @@ class CarServiceH2Test {
     }
     @Test
     void testFindCarByIdbyAdmin() {
-        CarResponse foundCar = carService.findCarById(3, true);
+        var cars = carRepository.findAll(); //id check for cars
+        CarResponse foundCar = carService.findCarById(13, true);
 
-        assertEquals(3, foundCar.getId());
+        assertEquals(13, foundCar.getId());
         assertEquals("Audi", foundCar.getBrand());
         assertEquals("A4", foundCar.getModel());
         assertEquals(100000, foundCar.getPricePrDay());
@@ -70,9 +73,10 @@ class CarServiceH2Test {
 
     @Test
     void testFindCarByIdbyUser() {
-        CarResponse foundCar = carService.findCarById(1L, false);
+        var cars = carRepository.findAll(); //id check for cars
+        CarResponse foundCar = carService.findCarById(11, false);
 
-        assertEquals(1, foundCar.getId());
+        assertEquals(11, foundCar.getId());
         assertEquals("Audi", foundCar.getBrand());
         assertEquals("A4", foundCar.getModel());
         assertEquals(100000, foundCar.getPricePrDay());
@@ -85,7 +89,7 @@ class CarServiceH2Test {
         CarResponse addedCar = carService.addNewCar(carRequest);
 
         assertNotNull(addedCar.getId());
-        assertEquals(9, addedCar.getId()); //Is the Id becomes 3 after the first 2 cars because of before each?
+        assertEquals(19, addedCar.getId()); //Is the Id becomes 3 after the first 2 cars because of before each?
         assertEquals("Audi", addedCar.getBrand());
         assertEquals("A4", addedCar.getModel());
         assertEquals(100000, addedCar.getPricePrDay());
@@ -110,4 +114,5 @@ class CarServiceH2Test {
         Optional<Car> retrievedCar = carRepository.findById(car1.getId());
         assertFalse(retrievedCar.isPresent());
     }
+
 }
