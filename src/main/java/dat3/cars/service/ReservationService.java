@@ -8,9 +8,7 @@ import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -24,7 +22,7 @@ import java.util.List;
 public class ReservationService {
 
     ReservationRepository reservationRepository;
-//    ReservationRequest reservationRequest
+//    ReservationRequest reservationRequest;
 //    ReservationResponse reservationResponse;
 
     MemberRepository memberRepository;
@@ -40,9 +38,9 @@ public class ReservationService {
         this.carRepository = carRepository;
     }
 
-    public List<ReservationResponse> getAllReservations() {
+    public List<ReservationResponse> getReservations() {
         List<Reservation> reservations = reservationRepository.findAll();
-        List<ReservationResponse> reservationResponses = reservations.stream().map((r) -> new ReservationResponse()).toList();
+        List<ReservationResponse> reservationResponses = reservations.stream().map((r) -> new ReservationResponse(r)).toList();
         return reservationResponses;
     }
 
@@ -51,22 +49,26 @@ public class ReservationService {
         return new ReservationResponse(found);
     }
 
-    public ReservationResponse makeReservation (ReservationRequest body){
-        if (reservationRepository.existsByCarIdAndRentalDate(body.getCarId(), body.getDateToReserveCar())) {
+    public ReservationResponse makeReservation (ReservationRequest reservationRequest){
+        if (reservationRepository.existsByCarIdAndRentalDate(reservationRequest.getCar(), reservationRequest.getRentalDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is already reserved on this day");
         }
-        Car car = carRepository.findById(body.getCarId())
+        Car car = carRepository.findById(reservationRequest.getCar().getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with provide id not found"));
-        Member member = memberRepository.findById(body.getUsername())
+        Member member = memberRepository.findById(reservationRequest.getMember().getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with provided username not found"));
 
         // Check if the reservation date is in the future
-        if (body.getDateToReserveCar().isBefore(LocalDate.now())) {
+        if (reservationRequest.getRentalDate().isBefore(LocalDate.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Reservation date cannot be a date in the past");
         }
-        Reservation reservation = new Reservation(member, car, body.getDateToReserveCar());
-        reservation = reservationRepository.save(reservation);
-        return new ReservationResponse(reservation);
+        Reservation newReservation = new Reservation();
+            newReservation.setId(reservationRequest.getId());
+            newReservation.setMember(member);
+            newReservation.setCar(car);
+            newReservation.setRentalDate(reservationRequest.getRentalDate());
+        newReservation = reservationRepository.save(newReservation);
+        return new ReservationResponse(newReservation);
     }
 
     public List<ReservationResponse> getReservationsForUser(String username) {
@@ -74,29 +76,6 @@ public class ReservationService {
         List<ReservationResponse> reservations = member.getReservations().stream().map(r -> new ReservationResponse(r)).toList();
         return reservations;
     }
-
-/*    public ReservationResponse createNewReservation(ReservationRequest reservationRequest){
-        //Check if car is available
-        long car = reservationRequest.getCarId();
-        List<Reservation> conflictingReservations = reservationRepository.findConflictingReservations(car, reservationRequest.getRentalStartDate(), reservationRequest.getRentalEndDate());
-        if(!conflictingReservations.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Car is not available for the requested rental period.");
-        }
-
-        Reservation reservation = reservationRepository.save(new Reservation(reservationRequest.getMember(), reservationRequest.getCar(), reservationRequest.getRentalStartDate()));
-        return new ReservationResponse(reservation);
-    }
-
-    public ReservationResponse updateReservation (ReservationRequest body, int id){
-        Reservation reservationToEdit = reservationRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reservation not found."));
-        reservationToEdit.setReservationDate(body.getDateToReserveCar());
-        reservationToEdit.setRentalStartDate(body.getDateToReserveCar());
-        //reservationToEdit.setRentalEndDate(body.getRentalEndDate());
-        reservationToEdit.setMember(body.getMember());
-        reservationToEdit.setCar(body.getCar());
-        Reservation updatedReservation = reservationRepository.save(reservationToEdit);
-        return new ReservationResponse(updatedReservation);
-    }*/
 
     public void deleteReservation(int id){
         Reservation found = reservationRepository.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reservation not found."));

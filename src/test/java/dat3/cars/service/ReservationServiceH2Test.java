@@ -16,42 +16,53 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @DataJpaTest
 class ReservationServiceH2Test {
 
-    @Autowired
-    ReservationRepository reservationRepository;
     ReservationService reservationService;
 
+    @Autowired
+    ReservationRepository reservationRepository;
     @Autowired
     CarRepository carRepository;
     @Autowired
     MemberRepository memberRepository;
 
-    boolean dataIsInitialized = false;
+    private Car car1;
+    private Car car2;
+    private Member m1;
+    private Member m2;
+    private Reservation res1;
+    private Reservation res2;
+
+    boolean dataIsInitialized = true;
 
     @BeforeEach
     void setUp() {
         if(!dataIsInitialized) return;
-        Car car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        Car car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
+
+        reservationRepository.deleteAll();
+        memberRepository.deleteAll();
+        carRepository.deleteAll();
+        car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
         carRepository.saveAndFlush(car1);
         carRepository.saveAndFlush(car2);
-        Member m1 = memberRepository.saveAndFlush(new Member("m1", "test12", "m1@a.dk", "bb", "Olsen", "xx vej 34", "Lyngby", "2800"));
-        Member m2 = memberRepository.saveAndFlush(new Member("m2", "test12", "m2@a.dk", "MArtin", "Hansen", "yy vej 34", "Amager", "4000"));
-        Reservation res1 = reservationRepository.saveAndFlush(new Reservation(m1, car1, LocalDate.parse("2023-04-04")));
-        Reservation res2 = reservationRepository.saveAndFlush(new Reservation(m2, car2, LocalDate.parse("2023-05-04")));
-        reservationRepository.saveAndFlush(res1);
-        reservationRepository.saveAndFlush(res2);
+        m1 = memberRepository.saveAndFlush(new Member("m1", "test12", "m1@a.dk", "Bibi", "Olsen", "xx vej 34", "Lyngby", "2800"));
+        m2 = memberRepository.saveAndFlush(new Member("m2", "test12", "m2@a.dk", "Martin", "Hansen", "yy vej 34", "Amager", "4000"));
+        res1 = reservationRepository.saveAndFlush(new Reservation(1, m1, car1, LocalDate.parse("2023-04-04")));
+        res2 = reservationRepository.saveAndFlush(new Reservation(2, m2, car2, LocalDate.parse("2023-05-04")));
 
         reservationService = new ReservationService(reservationRepository, memberRepository, carRepository);
         dataIsInitialized = true;
     }
 
     @Test
-    void testGetAllReservations() {
-        List<ReservationResponse> reservationResponseList = reservationService.getAllReservations();
+    void testGetReservations() {
+        List<ReservationResponse> reservationResponseList = reservationService.getReservations();
         assertEquals(2, reservationResponseList.size());
+        System.out.println(reservationResponseList);
         assertEquals(1, reservationResponseList.get(0).getCarId());
         assertEquals("Audi", reservationResponseList.get(0).getCarBrand());
         assertEquals("m2", reservationResponseList.get(1).getMemberUsername());

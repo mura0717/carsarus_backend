@@ -1,7 +1,6 @@
 package dat3.cars.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
@@ -16,29 +15,21 @@ import java.time.LocalDate;
 @Builder
 public class ReservationRequest {
 
-    private long carId;
-    private String username;
+    private int id;
+    private Member member;
+    private Car car;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateToReserveCar;
+    LocalDate rentalDate;
 
-
-/*    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    LocalDate reservationDate;
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    LocalDate rentalStartDate;
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    LocalDate rentalEndDate;
-    Member member;
-    Car car;
+  private static Reservation getReservationEntity (ReservationRequest r){
+      return new Reservation(r.getId(), r.getMember(), r.getCar(), r.getRentalDate());
+  }
 
     public ReservationRequest(Reservation r){
         this.id = r.getId();
-        this.reservationDate = r.getReservationDate();
-        this.rentalStartDate = r.getRentalStartDate();
-        //this.rentalEndDate = r.getRentalEndDate();
         this.member = r.getMember();
         this.car = r.getCar();
+        this.rentalDate = r.getRentalDate();
     }
 
- */
 }

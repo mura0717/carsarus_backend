@@ -33,7 +33,7 @@ class CarServiceH2Test {
         if(!dataInitialized) return;
         car1 = Car.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
         car2 = Car.builder().brand("BMW").model("M3").pricePrDay(200000).bestDiscount(20).build();
-        carRepository.saveAndFlush(car1);//Flush?
+        carRepository.saveAndFlush(car1);
         carRepository.saveAndFlush(car2);
         carService = new CarService(carRepository);
         dataInitialized = true;

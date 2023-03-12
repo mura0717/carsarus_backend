@@ -53,8 +53,8 @@ public class DeveloperData implements ApplicationRunner {
         carRepository.save(car2);
         createCars();
 
-        Reservation res1 = new Reservation(m1, car1, LocalDate.of(2023, 12, 12));
-        Reservation res2 = new Reservation(m2, car2, LocalDate.of(2023, 06, 06));
+        Reservation res1 = new Reservation(1, m1, car1, LocalDate.of(2023, 12, 12));
+        Reservation res2 = new Reservation(2, m2, car2, LocalDate.of(2023, 06, 06));
         reservationRepository.save(res1);
         reservationRepository.save(res2);
 

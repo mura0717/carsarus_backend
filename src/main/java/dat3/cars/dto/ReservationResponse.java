@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class ReservationResponse {
     int id;
     String memberUsername;
-    long carId;
+    Long carId;
     double pricePrDay;
     String carBrand;
     String carModel;
@@ -26,32 +26,10 @@ public class ReservationResponse {
         this.id= r.getId();
         this.memberUsername = r.getMember().getUsername();
         this.carId = r.getCar().getId();
+        this.pricePrDay = r.getCar().getPricePrDay();
         this.carBrand = r.getCar().getBrand();
         this.carModel = r.getCar().getModel();
-        this.pricePrDay = r.getCar().getPricePrDay();
         this.rentalDate = r.getRentalDate();
     }
-
-
-    /*long id;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    LocalDate reservationDate;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    LocalDate rentalStartDate;
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    LocalDate rentalEndDate;
-    Member member;
-    Car car;
-
-public ReservationResponse(Reservation r) {
-        this.id = r.getId();
-        this.reservationDate = r.getReservationDate();
-        this.rentalStartDate = r.getRentalStartDate();
-        //this.rentalEndDate = r.getRentalEndDate();
-        this.member = r.getMember();
-        this.car = r.getCar();
-    }
-
-     */
 
 }

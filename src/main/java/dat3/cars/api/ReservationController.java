@@ -1,6 +1,5 @@
 package dat3.cars.api;
 
-import dat3.cars.dto.MemberResponse;
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.service.ReservationService;
@@ -17,7 +16,7 @@ public class ReservationController {
 
     @GetMapping
     List<ReservationResponse> getReservations(){
-        return reservationService.getAllReservations();
+        return reservationService.getReservations();
     }
 
     @GetMapping(path = "/{id}")
