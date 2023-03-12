@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,5 +93,8 @@ class ReservationServiceH2Test {
 
     @Test
     void deleteReservation() {
+        reservationRepository.deleteById(res1.getId());
+        Optional<Reservation> retrievedReservation = reservationRepository.findById(res1.getId());
+        assertFalse(retrievedReservation.isPresent());
     }
 }
