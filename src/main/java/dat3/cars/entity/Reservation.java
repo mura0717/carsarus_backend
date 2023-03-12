@@ -14,22 +14,20 @@ import java.time.LocalDate;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
     @CreationTimestamp
-    LocalDate reservationDate;
-
-    LocalDate rentalDate;
-    //LocalDateTime rentalEndDate;
+    private LocalDate reservationDate; //The date the reservation was made.
+    private LocalDate rentalDate; //The car's rental date
 
     @ManyToOne
     Member member;
     @ManyToOne
     Car car;
 
-    public Reservation(Member member, Car car, LocalDate rentalDate) {
+    public Reservation(int id, Member member, Car car, LocalDate rentalDate) {
+        this.id = id;
         this.member = member;
         this.car = car;
         this.rentalDate = rentalDate;
-        //this.rentalEndDate = rentalEndDate;
     }
 }

@@ -49,9 +49,6 @@ public class Member extends UserWithRoles {
     @Column(name = "phone_number")
     Map<String,String> phones = new HashMap<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL , orphanRemoval = true)
-    List<Reservation> reservations;
-
     //Why do we have this constructor? We don't have it in car.
     public Member(String user, String password, String email,
                   String firstName, String lastName, String street, String city, String zip) {
@@ -62,5 +59,8 @@ public class Member extends UserWithRoles {
         this.city = city;
         this.zip = zip;
     }
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL , orphanRemoval = true)
+    List<Reservation> reservations;
 
 }

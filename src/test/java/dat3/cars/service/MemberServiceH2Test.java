@@ -50,8 +50,6 @@ class MemberServiceH2Test {
         m1 = memberRepository.saveAndFlush(m1);
         m2 = memberRepository.saveAndFlush(m2);
 
-        //testEntityManager.clear();
-
         memberService = new MemberService(memberRepository);
         dataInitialized = true;
     }
@@ -81,7 +79,7 @@ class MemberServiceH2Test {
         assertEquals("bb", foundMember.getFirstName());
         assertEquals("Olsen", foundMember.getLastName());
         assertEquals(m1.getCreated(), foundMember.getCreated());
-        assertNotNull(foundMember.getApproved());//Why is it null?
+        assertNotNull(foundMember.getApproved());
     }
 
     @Test
