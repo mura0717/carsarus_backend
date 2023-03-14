@@ -8,6 +8,7 @@ import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,7 +18,7 @@ import java.util.List;
 
 
 //@Transactional
-
+//@NoArgsConstructor
 @Service
 public class ReservationService {
 
@@ -53,8 +54,9 @@ public class ReservationService {
         if (reservationRepository.existsByCarIdAndRentalDate(reservationRequest.getCar().getId(), reservationRequest.getRentalDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is already reserved on this day");
         }
+
         Car car = carRepository.findById(reservationRequest.getCar().getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with provide id not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with provided id not found"));
         Member member = memberRepository.findById(reservationRequest.getMember().getUsername())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with provided username not found"));
 

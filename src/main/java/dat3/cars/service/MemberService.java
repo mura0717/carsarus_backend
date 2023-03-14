@@ -5,6 +5,7 @@ import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@NoArgsConstructor
 @Service
 public class MemberService {
 

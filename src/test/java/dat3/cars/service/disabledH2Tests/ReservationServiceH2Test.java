@@ -1,7 +1,5 @@
-package dat3.cars.service;
+package dat3.cars.service.disabledH2Tests;
 
-import dat3.cars.dto.MemberRequest;
-import dat3.cars.dto.MemberResponse;
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
@@ -10,6 +8,7 @@ import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
+import dat3.cars.service.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +65,6 @@ class ReservationServiceH2Test {
     void testGetReservations() {
         List<ReservationResponse> reservationResponseList = reservationService.getReservations();
         assertEquals(2, reservationResponseList.size());
-        System.out.println(reservationResponseList);
         assertEquals(7, reservationResponseList.get(0).getCarId());
         assertEquals("Audi", reservationResponseList.get(0).getCarBrand());
         assertEquals("m2", reservationResponseList.get(1).getMemberUsername());

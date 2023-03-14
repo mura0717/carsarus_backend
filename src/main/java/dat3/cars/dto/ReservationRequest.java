@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+//@Builder
 public class ReservationRequest {
 
     private int id;
@@ -21,7 +21,7 @@ public class ReservationRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate rentalDate;
 
-  private static Reservation getReservationEntity (ReservationRequest r){
+  private static Reservation reservationFromReservationRequest(ReservationRequest r){
       return new Reservation(r.getId(), r.getMember(), r.getCar(), r.getRentalDate());
   }
 
