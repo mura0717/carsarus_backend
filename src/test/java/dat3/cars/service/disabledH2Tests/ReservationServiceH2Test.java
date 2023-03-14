@@ -1,7 +1,5 @@
-package dat3.cars.service.oldH2Tests;
+package dat3.cars.service.disabledH2Tests;
 
-import dat3.cars.dto.MemberRequest;
-import dat3.cars.dto.MemberResponse;
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;

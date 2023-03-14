@@ -1,4 +1,4 @@
-package dat3.cars.service;
+package dat3.cars.service.mockitoTests;
 
 import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
@@ -8,6 +8,7 @@ import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
+import dat3.cars.service.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -58,20 +60,23 @@ public class ReservationServiceMockitoTest {
     void setUp() {
         if(!dataIsInitialized) return;
 
-        car1 = Car.builder().id(1).brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
-        car2 = Car.builder().id(2).brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
+        car1 = Car.builder().brand("Audi").model("A4").pricePrDay(100000).bestDiscount(10).build();
+        car2 = Car.builder().brand("BMW").model("M3").pricePrDay(200000).bestDiscount(30).build();
         m1 = new Member("m1", "test12", "m1@a.dk", "Bibi", "Olsen", "xx vej 34", "Lyngby", "2800");
         m2 = new Member("m2", "test12", "m2@a.dk", "Martin", "Hansen", "yy vej 34", "Amager", "4000");
         res1 = new Reservation(1, m1, car1, LocalDate.parse("2023-04-04"));//Reservation id is overwritten by the database once all tests are run.
         res2 = new Reservation(2, m2, car2, LocalDate.parse("2023-05-04"));//Reservation id is overwritten by the database once all tests are run.
 
+        carRepository.save(car1);
+        carRepository.save(car2);
+
         // cars and members are not saved in the repository, but reservations are???
-        carRepository.saveAndFlush(car1);
+/*        carRepository.saveAndFlush(car1);
         carRepository.saveAndFlush(car2);
         memberRepository.saveAndFlush(m1);
         memberRepository.saveAndFlush(m2);
         reservationRepository.saveAndFlush(res1);
-        reservationRepository.saveAndFlush(res2);
+        reservationRepository.saveAndFlush(res2);*/
 
 /*        car1.setCreated(LocalDateTime.now());
         car2.setCreated(LocalDateTime.now());
@@ -139,27 +144,26 @@ public class ReservationServiceMockitoTest {
     void makeReservation() {
 
         // Arrange
-        Reservation res3 = new Reservation(3, m1, car2, LocalDate.parse("2023-06-01"));
+        Car car3 = Car.builder().id(3).brand("Volvo").model("S80").pricePrDay(600).bestDiscount(12).build();
+        when(carRepository.findById(eq(car3.getId()))).thenReturn(Optional.of(car3));
+
+        Member m3 = new Member("m3", "test12", "m3@a.dk", "Peter", "Lind", "Lindevej vej 12", "Østerbro", "2400");
+        when(memberRepository.findById(eq(m3.getUsername()))).thenReturn(Optional.of(m3));
+
+        Reservation res3 = new Reservation(3, m3, car3, LocalDate.parse("2023-06-01"));
+        when(reservationRepository.save(any(Reservation.class))).thenReturn(res3);
+
         ReservationRequest reservationRequest = new ReservationRequest(res3);
-
-        System.out.println(car2.getId());
-        System.out.println(car2.getBrand());
-
-        System.out.println(res3.getId());
-        System.out.println(reservationRepository.findById((int) res3.getCar().getId()));//OptionalEmpty
 
         // Act
         ReservationResponse reservationResponse = reservationService.makeReservation(reservationRequest);
 
-        //when(reservationRepository.save(any(Reservation.class))).thenReturn(res3);
-
         // Assert
-        assertDoesNotThrow(() -> reservationRepository.findById(reservationResponse.getId()).get());
         assertNotNull(reservationResponse);
         assertEquals(3, reservationResponse.getId());
-        assertEquals("m1", reservationResponse.getMemberUsername());
-        assertEquals(2, reservationResponse.getCarId());
-        assertEquals("BMW", reservationResponse.getCarBrand());
+        assertEquals("m3", reservationResponse.getMemberUsername());
+        assertEquals(3, reservationResponse.getCarId());
+        assertEquals("Volvo", reservationResponse.getCarBrand());
         assertEquals(LocalDate.parse("2023-06-01"), reservationResponse.getRentalDate());
     }
 

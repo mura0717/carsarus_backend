@@ -1,9 +1,10 @@
-package dat3.cars.service;
+package dat3.cars.service.mockitoTests;
 
 import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
+import dat3.cars.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

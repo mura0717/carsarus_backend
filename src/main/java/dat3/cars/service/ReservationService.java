@@ -18,7 +18,7 @@ import java.util.List;
 
 
 //@Transactional
-@NoArgsConstructor
+//@NoArgsConstructor
 @Service
 public class ReservationService {
 
@@ -54,11 +54,6 @@ public class ReservationService {
         if (reservationRepository.existsByCarIdAndRentalDate(reservationRequest.getCar().getId(), reservationRequest.getRentalDate())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is already reserved on this day");
         }
-        System.out.println(reservationRequest.getCar().getId());
-        System.out.println(reservationRequest.getCar().getBrand());
-        System.out.println(carRepository.findAll()); //Empty
-        System.out.println(memberRepository.findAll()); //Empty
-
 
         Car car = carRepository.findById(reservationRequest.getCar().getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with provided id not found"));
