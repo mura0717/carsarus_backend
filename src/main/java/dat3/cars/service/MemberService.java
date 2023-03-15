@@ -14,13 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@NoArgsConstructor
+
 @Service
 public class MemberService {
 
-    MemberRepository memberRepository;
-//    MemberRequest memberRequest;
-//    MemberResponse memberResponse;
+    private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;

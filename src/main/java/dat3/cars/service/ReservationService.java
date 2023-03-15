@@ -18,20 +18,13 @@ import java.util.List;
 
 
 //@Transactional
-//@NoArgsConstructor
 @Service
 public class ReservationService {
 
-    ReservationRepository reservationRepository;
-//    ReservationRequest reservationRequest;
-//    ReservationResponse reservationResponse;
+    private final ReservationRepository reservationRepository;
 
-    MemberRepository memberRepository;
-    CarRepository carRepository;
-
-/*    public ReservationService (ReservationRepository reservationRepository){
-        this.reservationRepository = reservationRepository;
-    }*/
+    private final MemberRepository memberRepository;
+    private final CarRepository carRepository;
 
     public ReservationService(ReservationRepository reservationRepository, MemberRepository memberRepository, CarRepository carRepository) {
         this.reservationRepository = reservationRepository;

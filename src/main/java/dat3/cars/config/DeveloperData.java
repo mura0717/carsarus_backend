@@ -41,6 +41,9 @@ public class DeveloperData implements ApplicationRunner {
 
         Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Esra", "Babacan", "Tikøbvej 32", "Tikøb", "3600");
         Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronja", "Auster", "Roskildevej 8", "Roskilde", "3200");
+        m1.getPhones().put("mobile", "12345");
+        m1.getPhones().put("work", "45678");
+        m2.getFavoriteCarColors().add("red");
         memberRepository.save(m1);
         memberRepository.save(m2);
         memberRepository.save(new Member("member3", passwordUsedByAll, "member3@a.dk", "Kurt", "Vonnegut", "Lyngbyvej 2", "Lyngby", "2800"));
@@ -58,11 +61,6 @@ public class DeveloperData implements ApplicationRunner {
         reservationRepository.save(res1);
         reservationRepository.save(res2);
 
-//        m1.getPhones().put("mobile", "12345");
-//        m1.getPhones().put("work", "45678");
-//        m2.getFavoriteCarColors().add("red");
-//        memberRepository.save(m1);
-//        memberRepository.save(m2);
 
     }
 
@@ -100,7 +98,7 @@ public class DeveloperData implements ApplicationRunner {
     UserWithRolesRepository userWithRolesRepository;
     final String passwordUsedByAll = "test12";
 
-    private void setupUserWithRoleUsers() {
+    private void setupUserWithRole() {
 
         System.out.println("******************************************************************************");
         System.out.println("******* NEVER  COMMIT/PUSH CODE WITH DEFAULT CREDENTIALS FOR REAL ************");
@@ -132,7 +130,7 @@ public class DeveloperData implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         dummyData();
-        setupUserWithRoleUsers();
+        setupUserWithRole();
     }
 }
 

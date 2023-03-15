@@ -10,14 +10,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@NoArgsConstructor
+
 @Service
 public class CarService {
 
-    CarRepository carRepository;
-//    CarRequest carRequest;
-//    CarResponse carResponse;
+    private final CarRepository carRepository;
 
     public CarService (CarRepository carRepository){
         this.carRepository = carRepository;
@@ -25,8 +24,9 @@ public class CarService {
 
     public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
-        List<CarResponse> carResponses = cars.stream().map((c) -> new CarResponse(c, includeAll)).toList();
-        return carResponses;
+        return cars.stream().map(car -> new CarResponse(car, includeAll)).collect(Collectors.toList());
+//        List<CarResponse> carResponses = cars.stream().map((c) -> new CarResponse(c, includeAll)).toList();
+//        return carResponses;
     }
 
     public CarResponse findCarById(long id, boolean includeAll) {
