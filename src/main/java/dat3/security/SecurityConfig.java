@@ -91,8 +91,8 @@ public class SecurityConfig {
             .requestMatchers("/error").permitAll()
 
             .requestMatchers("/", "/**").permitAll());
-
-           // .requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll());
+            //Allow anonymous access to this endpoint
+            //.requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll();
 
            // Demonstrates another way to add roles to an endpoint
            // .requestMatchers(HttpMethod.GET, "/api/demo/admin").hasAuthority("ADMIN")

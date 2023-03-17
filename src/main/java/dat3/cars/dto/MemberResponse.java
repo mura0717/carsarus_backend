@@ -13,7 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 //Convert Member Entity to Member DTO

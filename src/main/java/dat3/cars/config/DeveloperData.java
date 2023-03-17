@@ -39,8 +39,8 @@ public class DeveloperData implements ApplicationRunner {
     void dummyData() {
         String passwordUsedByAll = "test12";
 
-        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Esra", "Babacan", "Tikøbvej 32", "Tikøb", "3600");
-        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronja", "Auster", "Roskildevej 8", "Roskilde", "3200");
+        Member m1 = new Member("member1", passwordUsedByAll, "member1@a.dk", "Ezra", "Schlocker", "Tikøbvej 32", "Tikøb", "3600");
+        Member m2 = new Member("member2", passwordUsedByAll, "member2@a.dk", "Ronski", "Azier", "Roskildevej 8", "Roskilde", "3200");
         m1.getPhones().put("mobile", "12345");
         m1.getPhones().put("work", "45678");
         m2.getFavoriteCarColors().add("red");
@@ -109,15 +109,17 @@ public class DeveloperData implements ApplicationRunner {
         UserWithRoles user2 = new UserWithRoles("user2", passwordUsedByAll, "user2@a.dk");
         UserWithRoles user3 = new UserWithRoles("user3", passwordUsedByAll, "user3@a.dk");
         UserWithRoles user4 = new UserWithRoles("user4", passwordUsedByAll, "user4@a.dk");
-        user1.addRole(Role.USER);
+        UserWithRoles user5 = new UserWithRoles("user5", passwordUsedByAll, "user5@a.dk");
         user1.addRole(Role.ADMIN);
         user2.addRole(Role.USER);
         user3.addRole(Role.ADMIN);
-        //No Role assigned to user4
+        user4.addRole(Role.USER);
+        //No Role assigned to user5
         userWithRolesRepository.save(user1);
         userWithRolesRepository.save(user2);
         userWithRolesRepository.save(user3);
         userWithRolesRepository.save(user4);
+        userWithRolesRepository.save(user5);
     }
 
 //    CommandLineRunner run method.

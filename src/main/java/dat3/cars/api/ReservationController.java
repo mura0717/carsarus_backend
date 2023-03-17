@@ -10,9 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/reservations")
+@CrossOrigin
 public class ReservationController {
 
     ReservationService reservationService;
+
+    ReservationController (ReservationService reservationService){
+        this.reservationService = reservationService;
+    }
 
     @GetMapping
     List<ReservationResponse> getReservations(){
