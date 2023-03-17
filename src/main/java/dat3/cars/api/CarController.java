@@ -4,6 +4,7 @@ import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.service.CarService;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,9 @@ public class CarController {
         return carService.getCars(false);
     }
 
+    //Admin
     @GetMapping("/admin")
+   // @PreAuthorize("hasRole('ADMIN')")
     List<CarResponse> getCarsAdmin() {
         return carService.getCars(true);
     }
@@ -53,6 +56,4 @@ public class CarController {
     public void deleteCarById(@PathVariable int id) {
         carService.deleteCar(id);
     }
-
-
 }
