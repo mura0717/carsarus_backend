@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'carsarus'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CEAD27D922B942F6A889DB0E8B967F68 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FE157E70A333444FB2184433B9A28DF3 }}
           package: '*.jar'
